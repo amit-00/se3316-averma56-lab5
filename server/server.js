@@ -5,7 +5,7 @@ const connectDb = require('./config/db');
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 connectDb();
 
@@ -16,6 +16,7 @@ app.use(express.json({ extended: false }));
 // });
 app.use(cors());
 //Set static folder to serve html
+app.use('/api/users', require('./routes/api/users'));
 app.use('/api/courses', require('./routes/api/courses'));
 app.use('/api/schedule', require('./routes/api/schedule'));
 
