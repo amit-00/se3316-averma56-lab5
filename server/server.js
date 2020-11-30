@@ -17,6 +17,7 @@ app.use(express.json({ extended: false }));
 app.use(cors());
 //Set static folder to serve html
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/courses', require('./routes/api/courses'));
 app.use('/api/schedule', require('./routes/api/schedule'));
 

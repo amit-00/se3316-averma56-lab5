@@ -7,8 +7,8 @@ const config = require('config');
 const User = require('../../models/User');
 
 //@route    POST api/users
-//@desc    create user
-//@access    Public
+//@desc     create user
+//@access   Public
 router.post('/', [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please include valid email').isEmail(),
