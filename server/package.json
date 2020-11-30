@@ -1,0 +1,29 @@
+{
+  "name": "se3316-averma56-lab3",
+  "version": "1.0.0",
+  "description": "search western courses",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amit-00/se3316-averma56-lab3.git"
+  },
+  "author": "Amit Verma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amit-00/se3316-averma56-lab3/issues"
+  },
+  "homepage": "https://github.com/amit-00/se3316-averma56-lab3#readme",
+  "dependencies": {
+    "config": "^3.3.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
