@@ -23,11 +23,15 @@ router.get('/', async(req, res) => {
 //@desc     Get schedule by name
 //@access   public
 router.get('/name/:name', async(req, res) => {
-    const name = req.params.name.replace(/[<>?(){}]/g, '');
+    let name = req.params.name;
     try{
+        if(name !== undefined){
+            name = req.params.name.replace(/[<>?(){}]/g, '');
+        }
+
         const schedule = await Schedule.findOne({ name }).populate('courses');
         if(!schedule){
-            return res.status(404).send('no schedule')
+            return res.status(404).json({ errors: [{ msg: 'Schedule does not exist' }] });
         }
 
         res.json(schedule);
@@ -42,18 +46,15 @@ router.get('/name/:name', async(req, res) => {
 //@desc     create new schedule
 //@access   public
 router.post('/create', async(req, res) => {
+    let { name } = req.body
     try{
-        const { name } = req.body
-
-        if(name === undefined){
-            return res.status(400).send('invalid name');
+        if(name !== undefined){
+            name = name.replace(/[<>?(){}]/g, '');
         }
 
-        const scheduleName = name.replace(/[<>?(){}]/g, '');
-        let schedule = await Schedule.findOne({ scheduleName });
-
+        let schedule = await Schedule.findOne({ name });
         if(schedule){
-            return res.status(403).send('schedule already exists');
+            return res.status(400).json({ errors: [{ msg: 'Schedule already exists' }] });
         }
 
         schedule = new Schedule({

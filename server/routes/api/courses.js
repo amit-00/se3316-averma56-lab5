@@ -24,8 +24,9 @@ router.get('/', async(req, res) => {
 //@desc     Get all courses with subject code in DB
 //@access   public
 router.get('/subject/:code', async(req, res) => {
-    const subject = req.params.code.replace(/[<>?(){}]/g, '');
     try{
+        const subject = req.params.code.replace(/[<>?(){}]/g, '');
+
         const courses = await Course.find({ subject });
         if(!courses){
             return res.status(404).send('subject not found');
@@ -43,9 +44,10 @@ router.get('/subject/:code', async(req, res) => {
 //@desc     Get all courses with course code in DB
 //@access   public
 router.get('/code/:code/:component', async(req, res) => {
-    const cata = req.params.code.replace(/[<>?(){}]/g, '');
-    const component = req.params.component.replace(/[<>?(){}]/g, '');
     try{
+        const cata = req.params.code.replace(/[<>?(){}]/g, '');
+        const component = req.params.component.replace(/[<>?(){}]/g, '');
+
         if(req.params.component === "null"){
             const courses = await Course.find({ catalog_nbr: {"$regex": cata, "$options": "i"} });
 
