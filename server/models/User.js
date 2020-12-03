@@ -18,21 +18,6 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    schedules: [
-        {
-            name: {
-                type: String,
-                required: true
-            },
-            courses: [
-                {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'course'
-                }
-            ]
-            
-        }
-    ],
     isAdmin: {
         type: Boolean,
         default: false
