@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const ScheduleSchema = new mongoose.Schema({
+const ScheduleSchema = new Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        type: Schema.Types.ObjectId,
+        ref: 'users'
     },
-    name: {
+    s_name: {
         type: String,
         required: true
     },
@@ -14,8 +15,27 @@ const ScheduleSchema = new mongoose.Schema({
     },
     courses: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'course'
+            type: Schema.Types.ObjectId,
+            ref: 'courses'
+        }
+    ],
+    reviews: [
+        {
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'users'
+            },
+            name: {
+                type: String
+            },
+            level: {
+                type: Number,
+                required: true
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            }
         }
     ],
     isPublic: {
