@@ -10,9 +10,10 @@ const User = require('../../models/User');
 //@desc     create user
 //@access   Public
 router.post('/', [
-    check('name', 'Name is required').not().isEmpty(),
-    check('email', 'Please include valid email').isEmail(),
-    check('password', 'Please enter valid password').isLength({ min:6 })
+    //use express-validator middleware to validate and sanitize input
+    check('name', 'Name is required').not().isEmpty().trim().escape(),
+    check('email', 'Please include valid email').isEmail().normalizeEmail(),
+    check('password', 'Please enter valid password').isLength({ min:6 }).trim().escape()
 ] , async (req, res) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()){

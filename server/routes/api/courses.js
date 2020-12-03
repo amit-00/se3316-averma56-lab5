@@ -9,9 +9,6 @@ const Course = require('../../models/Course');
 router.get('/', async(req, res) => {
     try{
         const courses = await Course.find()
-        if(!courses){
-            return res.status(404).send('subject not found');
-        }
         res.json(courses);
     }
     catch(err){
@@ -24,12 +21,11 @@ router.get('/', async(req, res) => {
 //@desc     Get all courses with subject code in DB
 //@access   public
 router.get('/subject/:code', async(req, res) => {
+    const code = req.params.code;
     try{
-        const subject = req.params.code.replace(/[<>?(){}]/g, '');
-
-        const courses = await Course.find({ subject });
-        if(!courses){
-            return res.status(404).send('subject not found');
+        const courses = await Course.find({ subject: { "$regex": code } });
+        if(!courses || courses.length === 0){
+            return res.status(404).json({ errors: [{ msg: 'Course not found' }] });
         }
 
         res.json(courses);
@@ -40,50 +36,60 @@ router.get('/subject/:code', async(req, res) => {
     }
 });
 
-//@route    GET /api/courses/code/:code/:component
+//@route    GET 
 //@desc     Get all courses with course code in DB
 //@access   public
-router.get('/code/:code/:component', async(req, res) => {
+router.get('/search', async(req, res) => {
     try{
-        const cata = req.params.code.replace(/[<>?(){}]/g, '');
-        const component = req.params.component.replace(/[<>?(){}]/g, '');
+        const cata = req.query.code;
+        const component = req.query.component;
+        const key = req.query.key;
 
-        if(req.params.component === "null"){
-            const courses = await Course.find({ catalog_nbr: {"$regex": cata, "$options": "i"} });
+        console.log(cata)
+        console.log(component)
+        console.log(key)
 
-            if(!courses){
-                return res.status(404).send('course not found');
+
+        if(key !== ""){
+            const courses = await Course.find({$text : { $search : key }});
+            if(!courses || courses.length === 0){
+                return res.status(404).json({errors: [{ msg: 'course not found' }] });
             }
-    
+
+            return res.json(courses);
+        }
+        else if(cata === "" && component === ""){
+            const courses = await Course.find({});
+            if(!courses || courses.length === 0){
+                return res.status(404).json({errors: [{ msg: 'course not found' }] });
+            }
+
+            return res.json(courses);
+        }
+        else if(cata !== "" && component === ""){
+            const courses = await Course.find({ catalog_nbr: { "$regex": cata } });
+            if(!courses || courses.length === 0){
+                return res.status(404).json({errors: [{ msg: 'course not found' }] });
+            }
+
+            return res.json(courses);
+        }
+        else if(cata === "" && component !== ""){
+            const courses = await Course.find({ course_info: { "$elemMatch" :{ssr_component: component}} });
+            if(!courses || courses.length === 0){
+                return res.status(404).json({errors: [{ msg: 'course not found' }] });
+            }
+
             return res.json(courses);
         }
         else{
-            const courses = await Course.find({ catalog_nbr: {"$regex": cata, "$options": "i"}, course_info: { "$elemMatch" :{ssr_component: component}} });
-
-            if(!courses){
-                return res.status(404).send('course not found');
+            const courses = await Course.find({ catalog_nbr: { "$regex": cata } , course_info: { "$elemMatch" :{ssr_component: component}} });
+            if(!courses || courses.length === 0){
+                return res.status(404).json({errors: [{ msg: 'course not found' }] });
             }
-    
+
             return res.json(courses);
         }
-    }
-    catch(err){
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
-//@route    GET /api/courses/component/:code
-//@desc     Get all courses with course code in DB
-//@access   public
-router.get('/component/:code', async(req, res) => {
-    const component = req.params.code.replace(/[<>?(){}]/g, '');
-    try{
-        const courses = await Course.find({course_info: { "$elemMatch" :{ssr_component: component}}});
-        if(!courses){
-            return res.status(404).send('subject not found');
-        }
-
-        res.json(courses);
     }
     catch(err){
         console.error(err.message);

@@ -13,6 +13,10 @@ const User = require('../../models/User');
 router.get('/', auth, async (req, res) => {
     try{
        const user = await User.findById(req.user.id).select('-password');
+        if(user.deactivated){
+            return res.json(400).json({ errors: [{ msg: 'Account is deactivated' }] })
+        }
+
        res.json(user);
     }
     catch(err){
@@ -25,8 +29,8 @@ router.get('/', auth, async (req, res) => {
 //@desc     authenticate user and get token
 //@access   Public
 router.post('/', [
-    check('email', 'Please include valid email').isEmail(),
-    check('password', 'Password is required').exists()
+    check('email', 'Please include valid email').isEmail().normalizeEmail(),
+    check('password', 'Password is required').exists().trim().escape()
 ] , async (req, res) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
@@ -70,8 +74,8 @@ router.post('/', [
 //@desc     authenticate admin and get token
 //@access   Public
 router.post('/', [
-    check('email', 'Please include valid email').isEmail(),
-    check('password', 'Password is required').exists()
+    check('email', 'Please include valid email').isEmail().normalizeEmail(),
+    check('password', 'Password is required').exists().trim().escape()
 ] , async (req, res) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()){

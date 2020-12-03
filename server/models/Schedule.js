@@ -9,12 +9,24 @@ const ScheduleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    desc: {
+        type: String
+    },
     courses: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'course'
         }
-    ]
+    ],
+    isPublic: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    modified: {
+        type: Date,
+        default: Date.now
+    }
     
 });
 

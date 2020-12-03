@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const Course = require('../../models/Course');
 const Schedule = require('../../models/Schedule');
 
@@ -9,13 +10,28 @@ const Schedule = require('../../models/Schedule');
 //@access   public
 router.get('/', async(req, res) => {
     try{
-        const schedule = await Schedule.find();
+        const schedules = await Schedule.find();
 
-        res.json(schedule);
+        res.json(schedules);
     }
     catch(err){
-        console.error(err.nessage);
+        console.error(err.message);
         res.status(500).send('Server Error');
+    }
+});
+
+//@route    GET /api/schedule
+//@desc     Get 10 of the latest public schedules
+//@access   public
+router.get('/public', async (req, res) => {
+    try{
+        //returns 10 latest public schedules from db
+        const schedules = await Schedule.find({ isPublic: true }).sort({ modified: -1 }).limit(10);
+        res.json(schedules);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error')
     }
 });
 
@@ -25,10 +41,6 @@ router.get('/', async(req, res) => {
 router.get('/name/:name', async(req, res) => {
     let name = req.params.name;
     try{
-        if(name !== undefined){
-            name = req.params.name.replace(/[<>?(){}]/g, '');
-        }
-
         const schedule = await Schedule.findOne({ name }).populate('courses');
         if(!schedule){
             return res.status(404).json({ errors: [{ msg: 'Schedule does not exist' }] });
@@ -42,15 +54,23 @@ router.get('/name/:name', async(req, res) => {
     }
 });
 
-//@route    POST /api/schedule/create
+//@route    POST /api/schedule
 //@desc     create new schedule
 //@access   public
-router.post('/create', async(req, res) => {
-    let { name } = req.body
+router.post('/', [
+    check('name', 'Please enter a valid name').not().isEmpty().trim().escape(),
+    check('desc').trim().escape()
+],async(req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    let { name, desc, isPublic } = req.body
     try{
-        if(name !== undefined){
-            name = name.replace(/[<>?(){}]/g, '');
-        }
+        // if(name !== undefined){
+        //     name = name.replace(/[<>?(){}]/g, '');
+        // }
 
         let schedule = await Schedule.findOne({ name });
         if(schedule){
@@ -58,8 +78,41 @@ router.post('/create', async(req, res) => {
         }
 
         schedule = new Schedule({
-            name: scheduleName
+            name,
+            desc,
+            isPublic
         });
+
+        await schedule.save();
+
+        res.json(schedule);
+        
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+//@route    POST /api/schedule/update
+//@desc     update existing schedule
+//@access   public
+router.post('/update', async(req, res) => {
+    let { _id, name, desc, isPublic } = req.body
+    try{
+        // if(name !== undefined){
+        //     name = name.replace(/[<>?(){}]/g, '');
+        // }
+
+        let schedule = await Schedule.findById(_id);
+        if(!schedule){
+            return res.status(400).json({ errors: [{ msg: 'Schedule does not exist' }] });
+        }
+
+        schedule.name = name;
+        schedule.desc = desc;
+        schedule.isPublic = isPublic;
+        schedule.date = Date.now();
 
         await schedule.save();
 
@@ -116,19 +169,17 @@ router.delete('/delete/:name', async(req, res) => {
 //@access   public
 router.put('/courses/add', async (req, res) => {
     const { _id, name } = req.body
-    const courseId = _id.replace(/[<>?(){}]/g, '');
-    const scheduleName = name.replace(/[<>?(){}]/g, '');
     try{
-        let schedule = await Schedule.findOne({ name: scheduleName });
+        let schedule = await Schedule.findOne({ name });
         if(!schedule){
             return res.status(404).send('Schedule not found');
         }
         const newSchedule = schedule.courses.filter(course => { 
-            const test = course._id != courseId
+            const test = course._id != _id
             return test
         });
         schedule.courses = newSchedule;
-        schedule.courses.push({ _id: courseId });
+        schedule.courses.push({ _id });
 
         await schedule.save();
 
