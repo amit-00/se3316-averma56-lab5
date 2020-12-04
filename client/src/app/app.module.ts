@@ -11,6 +11,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSelectModule} from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,8 @@ import { HeaderComponent } from './header/header.component';
 import { CourseItemComponent } from './courses/course-item/course-item.component';
 import { CourseListComponent } from './courses/course-list/course-list.component';
 import { CourseSearchComponent } from './courses/course-search/course-search.component';
+import { ScheduleSelectorComponent } from './schedules/schedule-selector/schedule-selector.component';
+import { MakeScheduleComponent } from './schedules/make-schedule/make-schedule.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { CourseSearchComponent } from './courses/course-search/course-search.com
     HeaderComponent,
     CourseItemComponent,
     CourseListComponent,
-    CourseSearchComponent
+    CourseSearchComponent,
+    ScheduleSelectorComponent,
+    MakeScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,8 @@ import { CourseSearchComponent } from './courses/course-search/course-search.com
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

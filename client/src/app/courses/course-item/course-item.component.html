@@ -4,5 +4,29 @@
             {{ title }}
         </mat-panel-title>
     </mat-expansion-panel-header>
-    <p>This is the primary content of the panel.</p>
+    <p>{{ course.catalog_description }}</p>
+    <table>
+        <tr>
+            <th>Section</th>
+            <th>Component</th>
+            <th>Class Number</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Days</th>
+            <th>Campus</th>
+            <th>Instructor</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>{{ course.subject }}</td>
+            <td [ngClass]="setComponent()" >{{ course.course_info[0].ssr_component }}</td>
+            <td>{{ course.course_info[0].class_nbr }}</td>
+            <td>{{ course.course_info[0].start_time }}</td>
+            <td>{{ course.course_info[0].end_time }}</td>
+            <td>{{ course.course_info[0].days }}</td>
+            <td>{{ course.course_info[0].campus }}</td>
+            <td>{{ course.course_info[0].instructors }}</td>
+            <td>{{ course.course_info[0].enrl_stat }}</td>
+        </tr>
+    </table>
 </mat-expansion-panel>

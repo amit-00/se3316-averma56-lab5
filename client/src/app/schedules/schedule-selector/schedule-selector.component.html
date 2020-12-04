@@ -1,0 +1,11 @@
+<mat-card>
+    <h1>Schedule Selector</h1>
+    <mat-form-field appearance="fill">
+        <mat-label>Schedule</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let schedule of schedules" [value]="schedule.name">
+            {{ schedule.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-card>

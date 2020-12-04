@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CoursesService } from '../courses.service';
 
 @Component({
   selector: 'app-course-search',
@@ -8,17 +9,17 @@ import { NgForm } from '@angular/forms';
 })
 export class CourseSearchComponent implements OnInit {
 
-  constructor() { }
+  constructor(public coursesService: CoursesService) { }
 
   ngOnInit(): void {
   }
 
   searchCourses(form: NgForm) {
-    const formData = {
-      catalog_nbr: form.value.catalog_nbr,
-      subject: form.value.subject,
-      ssr_component: form.value.ssr_component
-    }
+    const code = form.value.catalog_nbr;
+    const sub = form.value.subject;
+    const comp= form.value.ssr_component;
+    const key = form.value.key;
+    this.coursesService.searchCourses(code, sub, comp, key);
     form.resetForm();
   }
 

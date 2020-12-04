@@ -17,4 +17,15 @@ export class CourseItemComponent implements OnInit {
     this.title = `${this.course.catalog_nbr} ${this.course.subject} - ${this.course.className}`
   }
 
+  //Dynamic Classes
+  setComponent(){
+    let classes= {
+      LEC: this.course.course_info[0].ssr_component === 'LEC',
+      TUT: this.course.course_info[0].ssr_component === 'TUT',
+      LAB: this.course.course_info[0].ssr_component === 'LAB'
+    }
+
+    return classes;
+  }
+
 }

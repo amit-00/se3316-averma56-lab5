@@ -10,9 +10,10 @@ import { CoursesService } from '../courses.service';
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit, OnDestroy {
-  courses:Course[];
+  courses:Course[] = [];
   pageSlice: Course[];
   private courseSub: Subscription;
+
   constructor(public coursesService: CoursesService) { }
 
   ngOnInit(): void {
@@ -20,7 +21,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.courseSub = this.coursesService.courseUpdateListener()
       .subscribe((courses:Course[]) => {
         this.courses = courses;
-      this.pageSlice = this.courses.slice(0,5);
+        this.pageSlice = this.courses.slice(0,5);
       });
   }
 

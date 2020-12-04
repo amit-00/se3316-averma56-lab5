@@ -20,7 +20,7 @@ router.get('/', async(req, res) => {
     }
 });
 
-//@route    GET /api/schedule
+//@route    GET /api/schedule/public
 //@desc     Get 10 of the latest public schedules
 //@access   public
 router.get('/public', async (req, res) => {

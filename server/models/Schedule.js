@@ -19,25 +19,6 @@ const ScheduleSchema = new Schema({
             ref: 'courses'
         }
     ],
-    reviews: [
-        {
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'users'
-            },
-            name: {
-                type: String
-            },
-            level: {
-                type: Number,
-                required: true
-            },
-            date: {
-                type: Date,
-                default: Date.now
-            }
-        }
-    ],
     isPublic: {
         type: Boolean,
         required: true,

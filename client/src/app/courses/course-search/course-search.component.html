@@ -1,6 +1,15 @@
 <mat-card>
     <h1>Search Course</h1>
-    <form #searchForm="ngForm" >
+    <form (submit)="searchCourses(searchForm)" #searchForm="ngForm" >
+        <mat-form-field>
+            <mat-label>Key Word</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            name="key" 
+            ngModel
+            #key="ngModel">
+        </mat-form-field>
         <mat-form-field>
             <mat-label>Course Code</mat-label>
             <input 
