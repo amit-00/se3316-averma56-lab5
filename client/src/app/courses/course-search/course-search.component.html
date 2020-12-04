@@ -1,18 +1,33 @@
 <mat-card>
     <h1>Search Course</h1>
-    <form>
+    <form #searchForm="ngForm" >
         <mat-form-field>
-            <mat-label>Favorite food</mat-label>
-            <input matInput placeholder="Course Code" value="Sushi">
+            <mat-label>Course Code</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            name="catalog_nbr" 
+            ngModel
+            #catalog_nbr="ngModel">
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Favorite food</mat-label>
-            <input matInput placeholder="Subject" value="Sushi">
+            <mat-label>Subject</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            name="subject" 
+            ngModel
+            #subject="ngModel">
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Favorite food</mat-label>
-            <input matInput placeholder="Component" value="Sushi">
+            <mat-label>Component</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            name="ssr_component" 
+            ngModel
+            #ssr_component="ngModel">
         </mat-form-field>
-        <button mat-raised-button color="accent" >Search</button>
+        <button mat-raised-button color="accent" type="submit" >Search</button>
     </form>
 </mat-card>

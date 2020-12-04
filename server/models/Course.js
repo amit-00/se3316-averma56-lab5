@@ -39,20 +39,8 @@ const CourseSchema = new Schema({
             type: String,
             required: true
         },
-        days: [
-            {
-                day: {
-                    type: String
-                }
-            }
-        ],
-        instructors: [
-            {
-                instructor: {
-                    type: String
-                }
-            }
-        ],
+        days: [String],
+        instructors: [String],
         class_section: {
             type: String
         },
