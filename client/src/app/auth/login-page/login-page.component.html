@@ -18,6 +18,6 @@
             </mat-form-field>
             <button mat-raised-button color="accent" type="submit" [disabled]="form.get('email').invalid || form.get('password').invalid" >Login</button>
         </form>
-        <p>Dont have an account? <a href="">Register</a></p>
+        <p>Dont have an account? <a routerLink="/register">Register</a></p>
     </mat-card>
 </main>

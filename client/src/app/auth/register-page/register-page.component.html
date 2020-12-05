@@ -1,0 +1,39 @@
+<main>
+    <mat-card>
+        <h1>Register</h1>
+        <form [formGroup]="form" (submit)="register()" >
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input 
+                matInput 
+                type="text" 
+                formControlName="name" >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input 
+                matInput 
+                type="email" 
+                formControlName="email" >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input 
+                matInput 
+                type="password" 
+                formControlName="password" >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Confirm Password</mat-label>
+                <input 
+                matInput 
+                type="password" 
+                formControlName="Cpassword" >
+            </mat-form-field>
+            <button mat-raised-button color="accent" type="submit"
+             [disabled]="form.get('email').invalid || form.get('name').invalid || form.get('password').invalid" 
+             >Register</button>
+        </form>
+        <p>Already have an account? <a routerLink="/login" >Login</a></p>
+    </mat-card>
+</main>

@@ -28,6 +28,7 @@ import { ScheduleViewerComponent } from './layout/schedule-viewer/schedule-viewe
 import { ScheduleItemComponent } from './schedules/schedule-item/schedule-item.component';
 import { ScheduleListComponent } from './schedules/schedule-list/schedule-list.component';
 import { LoginPageComponent } from './layout/login-page/login-page.component';
+import { RegisterPageComponent } from './layout/register-page/register-page.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { LoginPageComponent } from './layout/login-page/login-page.component';
     ScheduleViewerComponent,
     ScheduleItemComponent,
     ScheduleListComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    RegisterPageComponent
   ],
   imports: [
     BrowserModule,
