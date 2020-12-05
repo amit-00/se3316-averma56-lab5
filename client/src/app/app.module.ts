@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -29,6 +29,8 @@ import { ScheduleItemComponent } from './schedules/schedule-item/schedule-item.c
 import { ScheduleListComponent } from './schedules/schedule-list/schedule-list.component';
 import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
+import { PublicSchedulesComponent } from './layout/public-schedules/public-schedules.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { RegisterPageComponent } from './auth/register-page/register-page.compon
     ScheduleItemComponent,
     ScheduleListComponent,
     LoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    PublicSchedulesComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,7 @@ import { RegisterPageComponent } from './auth/register-page/register-page.compon
     MatCheckboxModule,
     MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

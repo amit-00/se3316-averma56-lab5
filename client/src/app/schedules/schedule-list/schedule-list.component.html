@@ -1,5 +1,5 @@
 <mat-accordion displayMode="default" *ngIf="schedules.length > 0">
-    <app-schedule-item *ngFor="let schedule of pageSlice" [schedule]="schedule" ></app-schedule-item>   
+    <app-schedule-item *ngFor="let schedule of pageSlice" [schedule]="schedule" [public]="public" ></app-schedule-item>   
 </mat-accordion>
 <p class="mat-body-1" *ngIf="schedules.length <= 0" >No Results</p>
 <mat-paginator  

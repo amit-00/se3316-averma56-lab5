@@ -9,7 +9,7 @@ const Schedule = require('../../models/Schedule');
 //@route    GET /api/schedule
 //@desc     Get all schedules
 //@access   public
-router.get('/', async(req, res) => {
+router.get('/', auth, async(req, res) => {
     try{
         const schedules = await Schedule.find().populate('course').sort({ modified: -1 });
 
@@ -22,7 +22,7 @@ router.get('/', async(req, res) => {
 });
 
 //@route    GET /api/schedule/user
-//@desc     Get all schedules
+//@desc     Get all user schedules
 //@access   public
 router.get('/user', auth, async(req, res) => {
     try{
@@ -52,9 +52,9 @@ router.get('/public', async (req, res) => {
 });
 
 //@route    GET /api/schedule/:id
-//@desc     Get schedule by name
+//@desc     Get schedule by id
 //@access   public
-router.get('/:id', async(req, res) => {
+router.get('/:id', auth, async(req, res) => {
     let id = req.params.id;
     try{
         const schedule = await Schedule.findById(id).populate('course');
@@ -73,7 +73,7 @@ router.get('/:id', async(req, res) => {
 //@route    POST /api/schedule
 //@desc     create new schedule
 //@access   public
-router.post('/', [
+router.post('/', auth,[
     check('name', 'Please enter a valid name').not().isEmpty().trim().escape(),
     check('desc').trim().escape()
 ],async(req, res) => {
@@ -113,7 +113,7 @@ router.post('/', [
 //@route    PUT /api/schedule/update/:id
 //@desc     update existing schedule
 //@access   public
-router.put('/update/:id', [
+router.put('/update/:id', auth, [
     check('name', 'Please enter a valid name').not().isEmpty().trim().escape(),
     check('desc').trim().escape()
 ],async(req, res) => {
@@ -152,9 +152,9 @@ router.put('/update/:id', [
 //@route    DELETE /api/schedule
 //@desc     delete all schedules
 //@access   public
-router.delete('/', async(req, res) => {
+router.delete('/', auth,async(req, res) => {
     try{
-        await Schedule.deleteMany({});
+        await Schedule.deleteMany({ user: req.user.id });
 
         res.json('All schedules deleted');
         
@@ -166,9 +166,9 @@ router.delete('/', async(req, res) => {
 });
 
 //@route    DELETE /api/schedule/delete/:id
-//@desc     delete single schedule by name
+//@desc     delete single schedule by id
 //@access   public
-router.delete('/delete/:id', async(req, res) => {
+router.delete('/delete/:id', auth,async(req, res) => {
     try{
         const id = req.params.id;
 
@@ -187,7 +187,7 @@ router.delete('/delete/:id', async(req, res) => {
 //@route    PUT /api/schedule/courses/add
 //@desc     add/update course in schedule
 //@access   public
-router.put('/courses/add', async (req, res) => {
+router.put('/courses/add', auth, async (req, res) => {
     const { _id, name } = req.body
     try{
         let schedule = await Schedule.findOne({ name });
@@ -218,7 +218,7 @@ router.put('/courses/add', async (req, res) => {
 //@route    DELETE /api/schedule/courses/delete/:schedule/:id
 //@desc     remove course from schedule by id
 //@access   public
-router.delete('/courses/delete/:schedule/:id', async (req, res) => {
+router.delete('/courses/delete/:schedule/:id', auth, async (req, res) => {
     const name = req.params.schedule.replace(/[<>?(){}]/g, '');
     const id = req.params.id.replace(/[<>?(){}]/g, '');
     try{

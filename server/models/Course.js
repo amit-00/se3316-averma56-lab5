@@ -71,6 +71,9 @@ const CourseSchema = new Schema({
                 type: Number,
                 required: true
             },
+            comment: {
+                type: String
+            },
             date: {
                 type: Date,
                 default: Date.now

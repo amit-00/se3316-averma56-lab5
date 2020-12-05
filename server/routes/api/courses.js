@@ -1,5 +1,6 @@
 const express = require('express');
-const { findByIdAndUpdate } = require('../../models/Course');
+const auth = require('../../middleware/auth');
+const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const Course = require('../../models/Course');
 
@@ -101,6 +102,22 @@ router.get('/search', async(req, res) => {
 
             return res.json(courses);
         }
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+//@route    GET /api/courses
+//@desc     Get all courses in DB
+//@access   public
+router.get('/', auth,[
+    check('comment').trim().escape()
+], async(req, res) => {
+    try{
+        const courses = await Course.find()
+        res.json(courses);
     }
     catch(err){
         console.error(err.message);

@@ -12,6 +12,7 @@ import { Course } from '../../models/Course.model';
 })
 export class ScheduleItemComponent implements OnInit {
   @Input() schedule:Schedule;
+  @Input() public:boolean;
   pageSlice: Course[];
 
   constructor(public schedulesService:SchedulesService) { }

@@ -10,6 +10,7 @@ import { Schedule } from 'src/app/models/Schedule.model';
 export class ScheduleListComponent implements OnInit {
   @Input() schedules: Schedule[];
   @Input() pageSlice: Schedule[];
+  @Input() public:boolean;
 
   constructor() { }
 

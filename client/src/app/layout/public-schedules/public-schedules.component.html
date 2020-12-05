@@ -1,0 +1,3 @@
+<h1>Public Schedules:</h1>
+<mat-spinner *ngIf="isLoading" ></mat-spinner>
+<app-schedule-list *ngIf="!isLoading" [schedules]="schedules" [pageSlice]="pageSlice" [public]="true" ></app-schedule-list>
