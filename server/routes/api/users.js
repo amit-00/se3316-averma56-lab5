@@ -48,7 +48,7 @@ router.post('/', [
             }
         }
 
-        jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
+        jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
             if(err) throw err;
             res.json({ token });
         });
@@ -60,24 +60,37 @@ router.post('/', [
     }
 });
 
-//@route    PUT api/users/status/:_id
-//@desc     admin updates user statuses
-//@access   Public
-router.put('/status/:_id', async (req, res) => {
-        const { _id } = req.params;
-        const { isAdmin, deactivated } = req.body;
+//@route    GET api/users/admin
+//@desc     admin gets users
+//@access   Private
+router.put('/admin', auth, async (req, res) => {
+    if(!req.user.isAdmin){
+        return res.status(401).json({ errors: [{ msg: 'Unauthorized Request' }] });
+    }
     try{
+        const users = await User.find().select('-password');
+        res.json(users)
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
-        const admin = await User.findById(req.user.id).select('-password');
-        if(!admin.isAdmin){
+//@route    PUT api/users/admin/status/:id
+//@desc     admin updates user statuses
+//@access   Private
+router.put('/admin/status/:id', auth, async (req, res) => {
+        if(!req.user.isAdmin){
             return res.status(401).json({ errors: [{ msg: 'Unauthorized Request' }] });
         }
+        const { isAdmin, deactivated } = req.body;
+    try{
         const update = {
             isAdmin,
             deactivated
         }
-
-        const user = await User.findByIdAndUpdate(_id, update, {new: true}).select('-password');
+        const user = await User.findByIdAndUpdate(req.params.id, update, {new: true}).select('-password');
         res.json(user)
     }
     catch(err){

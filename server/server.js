@@ -20,6 +20,7 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/courses', require('./routes/api/courses'));
 app.use('/api/schedule', require('./routes/api/schedule'));
+app.use('/api/docs', require('./routes/api/docs'));
 
 
 app.use(express.static(path.join(__dirname, 'public')));

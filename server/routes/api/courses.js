@@ -3,6 +3,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const Course = require('../../models/Course');
+const User = require('../../models/User');
 
 
 //@route    GET /api/courses
@@ -109,15 +110,32 @@ router.get('/search', async(req, res) => {
     }
 });
 
-//@route    GET /api/courses
+//@route    PUT /api/courses/reviews/:id
 //@desc     Get all courses in DB
 //@access   public
-router.get('/', auth,[
+router.put('/reviews/id', auth,[
+    check('level').trim().escape(),
     check('comment').trim().escape()
 ], async(req, res) => {
+    const { level, comment } = req.body;
     try{
-        const courses = await Course.find()
-        res.json(courses);
+        const commenter = await User.findById(req.user.id);
+
+        const review = {
+            user: commenter.id,
+            name: commenter.name,
+            level,
+            comment,
+            hidden: false
+        }
+
+        const course = await Course.findById(req.params.id);
+
+        course.reviews.unshift(review);
+
+        course.save();
+
+        res.json(course);
     }
     catch(err){
         console.error(err.message);
