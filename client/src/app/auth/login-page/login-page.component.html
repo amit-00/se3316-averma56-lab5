@@ -8,6 +8,7 @@
                 matInput 
                 type="email" 
                 formControlName="email" >
+                <mat-error *ngIf="form.get('email').invalid" >Please enter valid email</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Password</mat-label>
@@ -15,6 +16,7 @@
                 matInput 
                 type="password" 
                 formControlName="password" >
+                <mat-error *ngIf="form.get('password').invalid" >Please enter valid password</mat-error>
             </mat-form-field>
             <button mat-raised-button color="accent" type="submit" [disabled]="form.get('email').invalid || form.get('password').invalid" >Login</button>
         </form>

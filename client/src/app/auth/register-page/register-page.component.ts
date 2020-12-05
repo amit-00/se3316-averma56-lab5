@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthServiceService } from '../auth-service.service'
 
 
 @Component({
@@ -11,24 +12,25 @@ export class RegisterPageComponent implements OnInit {
   form: FormGroup;
 
 
-  constructor() { }
+  constructor(public authService:AuthServiceService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
       'name': new FormControl('', {validators: [Validators.required]}),
       'email': new FormControl('', {validators: [Validators.required]}),
       'password': new FormControl('', {validators: [Validators.required, Validators.minLength(6)]}),
-      'Cpassword': new FormControl('', {validators: [Validators.required, Validators.minLength(6)]})
     });
   }
 
   register() {
+    if(this.form.invalid){
+      return;
+    }
+    const name = this.form.value.name
     const email = this.form.value.email
     const password = this.form.value.password
 
-    console.log(email, password)
-
-    this.form.reset();
+    this.authService.registerUser(name, email, password)
   }
 
 }

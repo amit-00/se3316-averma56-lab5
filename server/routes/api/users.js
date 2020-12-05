@@ -61,7 +61,7 @@ router.post('/', [
 });
 
 //@route    PUT api/users/status/:_id
-//@desc     admin updates user
+//@desc     admin updates user statuses
 //@access   Public
 router.put('/status/:_id', async (req, res) => {
         const { _id } = req.params;
@@ -84,30 +84,6 @@ router.put('/status/:_id', async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
-});
-
-//@route    PUT api/users
-//@desc     admin updates user
-//@access   Public
-router.put('/', auth, async (req, res) => {
-    const { name, password } = req.body;
-try{
-    const update = {
-        name,
-        password
-    }
-    //Create encryption salt
-    const salt = await bcrypt.genSalt(10);
-    //encrypt user password
-    update.password = await bcrypt.hash(password, salt);
-
-    const user = await User.findByIdAndUpdate(_id, update, {new: true}).select(-password);
-    res.json(user);
-}
-catch(err){
-    console.error(err.message);
-    res.status(500).send('Server Error');
-}
 });
 
 module.exports = router;
