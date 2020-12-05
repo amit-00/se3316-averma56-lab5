@@ -3,9 +3,16 @@
         <mat-panel-title>
             {{ schedule.name }}
         </mat-panel-title>
+        <mat-panel-description>
+            {{ schedule.modified }}
+        </mat-panel-description>
     </mat-expansion-panel-header>
     <h4>Description:</h4>
     <p>{{ schedule.desc }}</p>
     <h4>Courses:</h4>
     <app-course-list [courses]="schedule.courses" [pageSlice]="pageSlice" ></app-course-list>
+    <mat-action-row>
+        <a mat-button color="primary" [routerLink]="['/edit', schedule._id]" >EDIT</a>
+        <button mat-button color="warn" (click)="deleteSchedule()" >DELETE</button>
+    </mat-action-row>
 </mat-expansion-panel>

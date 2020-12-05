@@ -1,41 +1,33 @@
 <mat-card>
     <h1>Search Course</h1>
-    <form (submit)="searchCourses(searchForm)" #searchForm="ngForm" >
+    <form [formGroup]="form" (submit)="searchCourses()" >
         <mat-form-field>
             <mat-label>Key Word</mat-label>
             <input 
             matInput 
             type="text" 
-            name="key" 
-            ngModel
-            #key="ngModel">
+            formControlName="key" >
         </mat-form-field>
         <mat-form-field>
             <mat-label>Course Code</mat-label>
             <input 
             matInput 
             type="text" 
-            name="catalog_nbr" 
-            ngModel
-            #catalog_nbr="ngModel">
+            formControlName="code" >
         </mat-form-field>
         <mat-form-field>
             <mat-label>Subject</mat-label>
             <input 
             matInput 
             type="text" 
-            name="subject" 
-            ngModel
-            #subject="ngModel">
+            formControlName="sub">
         </mat-form-field>
         <mat-form-field>
             <mat-label>Component</mat-label>
             <input 
             matInput 
             type="text" 
-            name="ssr_component" 
-            ngModel
-            #ssr_component="ngModel">
+            formControlName="comp">
         </mat-form-field>
         <button mat-raised-button color="accent" type="submit" >Search</button>
     </form>

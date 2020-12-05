@@ -4,7 +4,7 @@
 <p class="mat-body-1" *ngIf="schedules.length <= 0" >No Results</p>
 <mat-paginator  
         [length]="schedules.length"
-        [pageSize]="1"
+        [pageSize]="5"
         [pageSizeOptions]="[1, 3, 5]"
         (page)="onPageChange($event)">
 </mat-paginator> 

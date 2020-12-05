@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Schedule } from '../models/Schedule.model';
 import { Subject } from 'rxjs'
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class SchedulesService {
   private publicSchedulesUpdated = new Subject<Schedule[]>();
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
   getPublicSchedules() {
     this.http.get<Schedule[]>('http://localhost:5000/api/schedule/public')
@@ -29,6 +30,10 @@ export class SchedulesService {
         this.userSchedules = schedules;
         this.userSchedulesUpdated.next([...this.userSchedules]);
       });
+  }
+
+  getUserSchedule(id:string|null) {
+    return this.http.get<Schedule>(`http://localhost:5000/api/schedule/${id}`);
   }
 
   addCourse(body:any) {
@@ -54,20 +59,13 @@ export class SchedulesService {
     }
     this.http.post<Schedule>('http://localhost:5000/api/schedule', body)
       .subscribe((schedule) => {
-        const newSchedule: Schedule = { 
-          _id: schedule._id, 
-          name: schedule.name,
-          desc: schedule.desc,
-          isPublic: schedule.isPublic,
-          courses: schedule.courses,
-          modified: schedule.modified
-          }
-        this.userSchedules.push(newSchedule);
+        this.userSchedules.push(schedule);
         this.userSchedulesUpdated.next([...this.userSchedules]);
+        this.router.navigate(['/schedules']);
       });
   }
 
-  updateSchedule(id:string, name:string, desc:string, isPublic:boolean) {
+  updateSchedule(id:string|null, name:string, desc:string, isPublic:boolean) {
     const body = {
       name,
       desc,
@@ -79,13 +77,14 @@ export class SchedulesService {
         newSchedules.unshift(schedule);
         this.userSchedules = newSchedules;
         this.userSchedulesUpdated.next([...this.userSchedules]);
+        this.router.navigate(['/schedules']);
       })
   }
 
-  deleteSchedule(delName: string) {
-    this.http.delete(`http://localhost:5000/api/schedule/delete/${delName}`)
+  deleteSchedule(id: string) {
+    this.http.delete(`http://localhost:5000/api/schedule/delete/${id}`)
       .subscribe(() => {
-        const updatedSchedules = this.userSchedules.filter(schedule => schedule.name !== delName);
+        const updatedSchedules = this.userSchedules.filter(schedule => schedule._id !== id);
         this.userSchedules = updatedSchedules;
         this.userSchedulesUpdated.next([...this.userSchedules]);
       })

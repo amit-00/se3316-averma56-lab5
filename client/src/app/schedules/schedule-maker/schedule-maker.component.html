@@ -1,17 +1,13 @@
+<mat-spinner *ngIf="isLoading" ></mat-spinner>
 <mat-card>
     <h1>Create Schedule</h1>
-    <form #createForm="ngForm" (submit)="makeSchedule(createForm)" >
+    <form [formGroup]="form" (submit)="saveSchedule()" *ngIf="!isLoading" >
         <mat-form-field>
             <mat-label>Schedule Name</mat-label>
             <input
-            required
-            minlength="3"
-            maxlength="20"
             matInput 
             type="text" 
-            name="name" 
-            ngModel
-            #name="ngModel">
+            formControlName="name">
         </mat-form-field>
         <mat-form-field>
             <mat-label>Description(optional)</mat-label>
@@ -19,14 +15,10 @@
             rows="6"
             matInput 
             type="text" 
-            name="desc" 
-            ngModel
-            #desc="ngModel"></textarea>
+            formControlName="desc" ></textarea>
         </mat-form-field>
-        <mat-checkbox 
-            name="isPublic"
-            ngModel
-            #isPublic="ngModel">Public Schedule</mat-checkbox>
-        <button mat-raised-button color="accent" type="submit" [disabled]="!createForm.valid" >Create</button>
+        <mat-checkbox formControlName="isPublic">Public Schedule</mat-checkbox>
+        <button mat-raised-button color="accent" type="submit" [disabled]="form.get('name').invalid" >Save</button>
     </form>
 </mat-card>
+<app-course-list *ngIf="mode === 'edit'" [courses]="courses" [pageSlice] = "pageSlice" ></app-course-list>

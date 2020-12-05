@@ -7,6 +7,7 @@ import { ScheduleViewerComponent } from './layout/schedule-viewer/schedule-viewe
 const routes: Routes = [
   { path: 'search', component: CourseViewerComponent },
   { path: 'create', component: ScheduleMakerComponent },
+  { path: 'edit/:scheduleId', component: ScheduleMakerComponent },
   { path: 'schedules', component: ScheduleViewerComponent },
 ];
 

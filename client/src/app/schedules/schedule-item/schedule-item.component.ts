@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { SchedulesService } from '../schedules.service';
 import { Schedule } from 'src/app/models/Schedule.model';
 import { Course } from '../../models/Course.model';
+
+
 
 @Component({
   selector: 'app-schedule-item',
@@ -12,10 +14,14 @@ export class ScheduleItemComponent implements OnInit {
   @Input() schedule:Schedule;
   pageSlice: Course[];
 
-  constructor() { }
+  constructor(public schedulesService:SchedulesService) { }
 
   ngOnInit(): void {
     this.pageSlice = this.schedule.courses.slice(0,5);
+  }
+
+  deleteSchedule() {
+    this.schedulesService.deleteSchedule(this.schedule._id);
   }
 
 }

@@ -12,13 +12,16 @@ export class CourseViewerComponent implements OnInit, OnDestroy {
   courses:Course[] = [];
   pageSlice: Course[];
   private courseSub: Subscription;
+  isLoading: boolean = false;
 
   constructor(public coursesService: CoursesService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.coursesService.getCourses();
     this.courseSub = this.coursesService.courseUpdateListener()
       .subscribe((courses:Course[]) => {
+        this.isLoading = false;
         this.courses = courses;
         this.pageSlice = this.courses.slice(0,5);
       });

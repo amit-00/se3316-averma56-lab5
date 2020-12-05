@@ -1,2 +1,3 @@
 <h1>Schedules:</h1>
-<app-schedule-list [schedules]="schedules" [pageSlice]="pageSlice" ></app-schedule-list>
+<mat-spinner *ngIf="isLoading" ></mat-spinner>
+<app-schedule-list *ngIf="!isLoading" [schedules]="schedules" [pageSlice]="pageSlice" ></app-schedule-list>
