@@ -27,8 +27,8 @@ import { ScheduleMakerComponent } from './schedules/schedule-maker/schedule-make
 import { ScheduleViewerComponent } from './layout/schedule-viewer/schedule-viewer.component';
 import { ScheduleItemComponent } from './schedules/schedule-item/schedule-item.component';
 import { ScheduleListComponent } from './schedules/schedule-list/schedule-list.component';
-import { LoginPageComponent } from './layout/login-page/login-page.component';
-import { RegisterPageComponent } from './layout/register-page/register-page.component';
+import { LoginPageComponent } from './auth/login-page/login-page.component';
+import { RegisterPageComponent } from './auth/register-page/register-page.component';
 
 @NgModule({
   declarations: [
