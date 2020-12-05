@@ -1,10 +1,10 @@
 <mat-accordion displayMode="default" *ngIf="courses.length > 0">
     <app-course-item *ngFor="let course of pageSlice" [course]="course" ></app-course-item>   
 </mat-accordion>
+<p class="mat-body-1" *ngIf="courses.length <= 0" >No Results</p>
 <mat-paginator  
         [length]="courses.length"
         [pageSize]="5"
         [pageSizeOptions]="[5, 10, 20]"
         (page)="onPageChange($event)">
 </mat-paginator> 
-<p class="mat-body-1" *ngIf="courses.length <= 0" >No Results</p>

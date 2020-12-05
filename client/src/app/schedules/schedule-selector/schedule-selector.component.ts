@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Schedule } from '../../models/Schedule.model';
 import { SchedulesService } from '../schedules.service';
 import { Subscription } from 'rxjs';
@@ -9,21 +9,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './schedule-selector.component.html',
   styleUrls: ['./schedule-selector.component.css']
 })
-export class ScheduleSelectorComponent implements OnInit, OnDestroy {
-  schedules: Schedule[] = [];
-  private scheduleSub: Subscription;
+export class ScheduleSelectorComponent implements OnInit {
+  @Input() schedules: Schedule[] = [];
 
-  constructor(public schedulesService: SchedulesService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.scheduleSub = this.schedulesService.userScheduleUpdateListener()
-      .subscribe((schedules:Schedule[]) => {
-        this.schedules = schedules;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.scheduleSub.unsubscribe();
   }
 
 }

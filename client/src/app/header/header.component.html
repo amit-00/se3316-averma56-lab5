@@ -1,1 +1,17 @@
-<mat-toolbar color="primary">WesternSearch</mat-toolbar>
+<mat-toolbar color="primary">
+    <span>
+        <a routerLink="/">WesternSearch</a>
+    </span>
+    <span class="spacer"></span>
+    <ul>
+        <li>
+            <a mat-button routerLink="/search" routerLinkActive="mat-accent">Search Courses</a>
+        </li>
+        <li>
+            <a mat-button routerLink="/create" routerLinkActive="mat-accent">Create Schedule</a>
+        </li>
+        <li>
+            <a mat-button routerLink="/schedules" routerLinkActive="mat-accent">View Schedules</a>
+        </li>
+    </ul>
+</mat-toolbar>

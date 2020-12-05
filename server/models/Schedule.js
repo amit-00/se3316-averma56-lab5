@@ -6,7 +6,7 @@ const ScheduleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
-    s_name: {
+    name: {
         type: String,
         required: true
     },

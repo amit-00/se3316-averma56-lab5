@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +21,11 @@ import { CourseItemComponent } from './courses/course-item/course-item.component
 import { CourseListComponent } from './courses/course-list/course-list.component';
 import { CourseSearchComponent } from './courses/course-search/course-search.component';
 import { ScheduleSelectorComponent } from './schedules/schedule-selector/schedule-selector.component';
-import { MakeScheduleComponent } from './schedules/make-schedule/make-schedule.component';
+import { CourseViewerComponent } from './layout/course-viewer/course-viewer.component';
+import { ScheduleMakerComponent } from './schedules/schedule-maker/schedule-maker.component';
+import { ScheduleViewerComponent } from './layout/schedule-viewer/schedule-viewer.component';
+import { ScheduleItemComponent } from './schedules/schedule-item/schedule-item.component';
+import { ScheduleListComponent } from './schedules/schedule-list/schedule-list.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +35,11 @@ import { MakeScheduleComponent } from './schedules/make-schedule/make-schedule.c
     CourseListComponent,
     CourseSearchComponent,
     ScheduleSelectorComponent,
-    MakeScheduleComponent
+    CourseViewerComponent,
+    ScheduleMakerComponent,
+    ScheduleViewerComponent,
+    ScheduleItemComponent,
+    ScheduleListComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +54,8 @@ import { MakeScheduleComponent } from './schedules/make-schedule/make-schedule.c
     MatFormFieldModule,
     MatButtonModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

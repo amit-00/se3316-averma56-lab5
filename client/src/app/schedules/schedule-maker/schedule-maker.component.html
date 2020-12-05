@@ -1,0 +1,32 @@
+<mat-card>
+    <h1>Create Schedule</h1>
+    <form #createForm="ngForm" (submit)="makeSchedule(createForm)" >
+        <mat-form-field>
+            <mat-label>Schedule Name</mat-label>
+            <input
+            required
+            minlength="3"
+            maxlength="20"
+            matInput 
+            type="text" 
+            name="name" 
+            ngModel
+            #name="ngModel">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description(optional)</mat-label>
+            <textarea
+            rows="6"
+            matInput 
+            type="text" 
+            name="desc" 
+            ngModel
+            #desc="ngModel"></textarea>
+        </mat-form-field>
+        <mat-checkbox 
+            name="isPublic"
+            ngModel
+            #isPublic="ngModel">Public Schedule</mat-checkbox>
+        <button mat-raised-button color="accent" type="submit" [disabled]="!createForm.valid" >Create</button>
+    </form>
+</mat-card>

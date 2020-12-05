@@ -1,11 +1,10 @@
-import { Review } from './Review.model';
+import { Course } from './Course.model'
 
 export interface Schedule {
-    user: String;
-    name: String;
-    desc: String;
-    courses: String[];
-    reviews: Review[];
-    isPublic: Boolean;
+    _id: string;
+    name: string;
+    desc: string;
+    courses: Course[];
+    isPublic: boolean;
     modified: Date;
 }

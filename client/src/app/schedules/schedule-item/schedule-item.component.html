@@ -1,0 +1,11 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{ schedule.name }}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <h4>Description:</h4>
+    <p>{{ schedule.desc }}</p>
+    <h4>Courses:</h4>
+    <app-course-list [courses]="schedule.courses" [pageSlice]="pageSlice" ></app-course-list>
+</mat-expansion-panel>

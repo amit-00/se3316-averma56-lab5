@@ -1,4 +1,5 @@
 const express = require('express');
+const { findByIdAndUpdate } = require('../../models/Course');
 const router = express.Router();
 const Course = require('../../models/Course');
 

@@ -10,7 +10,7 @@ const Schedule = require('../../models/Schedule');
 //@access   public
 router.get('/', async(req, res) => {
     try{
-        const schedules = await Schedule.find();
+        const schedules = await Schedule.find().populate('course');
 
         res.json(schedules);
     }
@@ -26,7 +26,7 @@ router.get('/', async(req, res) => {
 router.get('/public', async (req, res) => {
     try{
         //returns 10 latest public schedules from db
-        const schedules = await Schedule.find({ isPublic: true }).sort({ modified: -1 }).limit(10);
+        const schedules = await Schedule.find({ isPublic: true }).populate('course').sort({ modified: 1 }).limit(10);
         res.json(schedules);
     }
     catch(err){
@@ -94,27 +94,34 @@ router.post('/', [
     }
 });
 
-//@route    POST /api/schedule/update
+//@route    PUT /api/schedule/update/:id
 //@desc     update existing schedule
 //@access   public
-router.post('/update', async(req, res) => {
-    let { _id, name, desc, isPublic } = req.body
+router.put('/update/:id', [
+    check('name', 'Please enter a valid name').not().isEmpty().trim().escape(),
+    check('desc').trim().escape()
+],async(req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    const { name, desc, isPublic } = req.body
     try{
         // if(name !== undefined){
         //     name = name.replace(/[<>?(){}]/g, '');
         // }
 
-        let schedule = await Schedule.findById(_id);
+        const body = new Schedule({
+            name,
+            desc,
+            isPublic
+        });
+
+        let schedule = await Schedule.findByIdAndUpdate({ _id: req.params.id }, body, {new: true});
         if(!schedule){
             return res.status(400).json({ errors: [{ msg: 'Schedule does not exist' }] });
         }
-
-        schedule.name = name;
-        schedule.desc = desc;
-        schedule.isPublic = isPublic;
-        schedule.date = Date.now();
-
-        await schedule.save();
 
         res.json(schedule);
         
@@ -183,6 +190,10 @@ router.put('/courses/add', async (req, res) => {
 
         await schedule.save();
 
+        schedule = await Schedule.findOne({ name });
+        if(!schedule){
+            return res.status(404).send('Schedule not found');
+        }
         res.json(schedule);
     }
     catch(err){

@@ -14,7 +14,7 @@ export class CourseItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.title = `${this.course.catalog_nbr} ${this.course.subject} - ${this.course.className}`
+    this.title = `${this.course.subject} ${this.course.catalog_nbr} - ${this.course.className}`
   }
 
   //Dynamic Classes
