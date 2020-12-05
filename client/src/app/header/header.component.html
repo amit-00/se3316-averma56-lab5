@@ -7,14 +7,23 @@
         <li>
             <a mat-button routerLink="/search" routerLinkActive="mat-accent">Search Courses</a>
         </li>
-        <li>
+        <li *ngIf="!isAuth">
             <a mat-button routerLink="/public" routerLinkActive="mat-accent">Public Schedules</a>
         </li>
-        <li>
+        <li *ngIf="!isAuth">
             <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
         </li>
-        <li>
+        <li *ngIf="!isAuth">
             <a mat-button routerLink="/register" routerLinkActive="mat-accent">Register</a>
+        </li>
+        <li *ngIf="isAuth">
+            <a mat-button routerLink="/create" routerLinkActive="mat-accent">Create Schedule</a>
+        </li>
+        <li *ngIf="isAuth">
+            <a mat-button routerLink="/schedules" routerLinkActive="mat-accent">View Schedules</a>
+        </li>
+        <li *ngIf="isAuth">
+            <button mat-button (click)="onLogout()" >Logout</button>
         </li>
     </ul>
 </mat-toolbar>

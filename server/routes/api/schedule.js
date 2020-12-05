@@ -94,6 +94,7 @@ router.post('/', auth,[
         }
 
         schedule = new Schedule({
+            user: req.user.id,
             name,
             desc,
             isPublic
@@ -135,7 +136,7 @@ router.put('/update/:id', auth, [
             modified: Date.now()
         }
 
-        let schedule = await Schedule.findByIdAndUpdate({ _id: req.params.id }, body, {new: true});
+        let schedule = await Schedule.findOneAndUpdate({ user: req.user.id, _id: req.params.id }, body, {new: true});
         if(!schedule){
             return res.status(400).json({ errors: [{ msg: 'Schedule does not exist' }] });
         }
@@ -160,7 +161,7 @@ router.delete('/', auth,async(req, res) => {
         
     }
     catch(err){
-        console.error(err.nessage);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 });
@@ -172,13 +173,13 @@ router.delete('/delete/:id', auth,async(req, res) => {
     try{
         const id = req.params.id;
 
-        await Schedule.findByIdAndDelete(id);
+        await Schedule.findOneAndDelete({ user: req.user.id, _id: req.params.id });
 
         res.json('Schedule Deleted');
         
     }
     catch(err){
-        console.error(err.nessage);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 });
@@ -187,10 +188,10 @@ router.delete('/delete/:id', auth,async(req, res) => {
 //@route    PUT /api/schedule/courses/add
 //@desc     add/update course in schedule
 //@access   public
-router.put('/courses/add', auth, async (req, res) => {
-    const { _id, name } = req.body
+router.put('/courses/add/:id', auth, async (req, res) => {
+    const { scheduleId } = req.body
     try{
-        let schedule = await Schedule.findOne({ name });
+        let schedule = await Schedule.findOne({ user: req.user.id, _id: scheduleId });
         if(!schedule){
             return res.status(404).send('Schedule not found');
         }
@@ -203,7 +204,7 @@ router.put('/courses/add', auth, async (req, res) => {
 
         await schedule.save();
 
-        schedule = await Schedule.findOne({ name });
+        schedule = await Schedule.findOne({ user: req.user.id, _id: scheduleId }).populate('course');
         if(!schedule){
             return res.status(404).send('Schedule not found');
         }
@@ -219,10 +220,8 @@ router.put('/courses/add', auth, async (req, res) => {
 //@desc     remove course from schedule by id
 //@access   public
 router.delete('/courses/delete/:schedule/:id', auth, async (req, res) => {
-    const name = req.params.schedule.replace(/[<>?(){}]/g, '');
-    const id = req.params.id.replace(/[<>?(){}]/g, '');
     try{
-        let schedule = await Schedule.findOne({ name });
+        let schedule = await Schedule.findOne({ user: req.user.id, _id: scheduleId });
         
         if(!schedule){
             return res.status(404).send('Schedule not found');

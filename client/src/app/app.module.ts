@@ -66,7 +66,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MatCheckboxModule,
     MatProgressSpinnerModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
