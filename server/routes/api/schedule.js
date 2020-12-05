@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Course = require('../../models/Course');
 const Schedule = require('../../models/Schedule');
@@ -10,7 +11,22 @@ const Schedule = require('../../models/Schedule');
 //@access   public
 router.get('/', async(req, res) => {
     try{
-        const schedules = await Schedule.find().populate('course');
+        const schedules = await Schedule.find().populate('course').sort({ modified: -1 });
+
+        res.json(schedules);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+//@route    GET /api/schedule/user
+//@desc     Get all schedules
+//@access   public
+router.get('/user', auth, async(req, res) => {
+    try{
+        const schedules = await Schedule.find({ user: req.user.id }).populate('course').sort({ modified: -1 });
 
         res.json(schedules);
     }
@@ -26,7 +42,7 @@ router.get('/', async(req, res) => {
 router.get('/public', async (req, res) => {
     try{
         //returns 10 latest public schedules from db
-        const schedules = await Schedule.find({ isPublic: true }).populate('course').sort({ modified: 1 }).limit(10);
+        const schedules = await Schedule.find({ isPublic: true }).populate('course').sort({ modified: -1 }).limit(10);
         res.json(schedules);
     }
     catch(err){
@@ -35,13 +51,13 @@ router.get('/public', async (req, res) => {
     }
 });
 
-//@route    GET /api/schedule/name/:name
+//@route    GET /api/schedule/:id
 //@desc     Get schedule by name
 //@access   public
-router.get('/name/:name', async(req, res) => {
-    let name = req.params.name;
+router.get('/:id', async(req, res) => {
+    let id = req.params.id;
     try{
-        const schedule = await Schedule.findOne({ name }).populate('courses');
+        const schedule = await Schedule.findById(id).populate('course');
         if(!schedule){
             return res.status(404).json({ errors: [{ msg: 'Schedule does not exist' }] });
         }
@@ -49,7 +65,7 @@ router.get('/name/:name', async(req, res) => {
         res.json(schedule);
     }
     catch(err){
-        console.error(err.nessage);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 });
@@ -112,11 +128,12 @@ router.put('/update/:id', [
         //     name = name.replace(/[<>?(){}]/g, '');
         // }
 
-        const body = new Schedule({
+        const body = {
             name,
             desc,
-            isPublic
-        });
+            isPublic,
+            modified: Date.now()
+        }
 
         let schedule = await Schedule.findByIdAndUpdate({ _id: req.params.id }, body, {new: true});
         if(!schedule){
@@ -148,18 +165,14 @@ router.delete('/', async(req, res) => {
     }
 });
 
-//@route    DELETE /api/schedule/delete/:name
+//@route    DELETE /api/schedule/delete/:id
 //@desc     delete single schedule by name
 //@access   public
-router.delete('/delete/:name', async(req, res) => {
+router.delete('/delete/:id', async(req, res) => {
     try{
-        if(req.params.name === undefined){
-            return res.status(400).send('invalid name');
-        }
+        const id = req.params.id;
 
-        const name = req.params.name.replace(/[<>?(){}]/g, '');
-
-        await Schedule.findOneAndDelete({ name});
+        await Schedule.findByIdAndDelete(id);
 
         res.json('Schedule Deleted');
         
