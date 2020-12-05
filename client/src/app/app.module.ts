@@ -27,6 +27,7 @@ import { ScheduleMakerComponent } from './schedules/schedule-maker/schedule-make
 import { ScheduleViewerComponent } from './layout/schedule-viewer/schedule-viewer.component';
 import { ScheduleItemComponent } from './schedules/schedule-item/schedule-item.component';
 import { ScheduleListComponent } from './schedules/schedule-list/schedule-list.component';
+import { LoginPageComponent } from './layout/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ScheduleListComponent } from './schedules/schedule-list/schedule-list.c
     ScheduleMakerComponent,
     ScheduleViewerComponent,
     ScheduleItemComponent,
-    ScheduleListComponent
+    ScheduleListComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
