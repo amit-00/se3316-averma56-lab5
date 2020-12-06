@@ -14,4 +14,8 @@ export class ReviewItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  stringAsDate(dateStr: Date) {
+    return new Date(dateStr);
+  }
+
 }

@@ -1,5 +1,5 @@
 <mat-card>
     <h2>{{ review.name }}</h2>
-    <h5>{{ review.date }}</h5>
+    <h5>{{ stringAsDate(review.date) | date:'MM-dd-yy   HH:mm:ss' }}</h5>
     <p>{{ review.comment }}</p>
 </mat-card>

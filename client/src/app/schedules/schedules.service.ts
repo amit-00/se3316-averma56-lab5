@@ -54,7 +54,7 @@ export class SchedulesService {
     const body = {
       courseId
     }
-    this.http.put<Schedule>(`${API_URL}schedule/courses/add/${id}`, body)
+    this.http.put<Schedule>(`${API_URL}/schedule/courses/add/${id}`, body)
       .subscribe(schedule => {
         this.currentSchedule = schedule;
         this.currentScheduleUpdated.next({...this.currentSchedule});
