@@ -13,6 +13,7 @@ export class AuthService {
   private isAdmin:boolean = false;
   private token:string  = '';
   private authStatusListener = new Subject<boolean>();
+  private adminStatusListener = new Subject<boolean>();
 
   constructor(private http:HttpClient, private router:Router) { }
 
@@ -25,6 +26,7 @@ export class AuthService {
   }
 
   getIsAdmin() {
+    console.log(this.isAdmin);
     return this.isAdmin;
   }
 
@@ -32,50 +34,37 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
+  getAdminStatus() {
+    return this.adminStatusListener.asObservable();
+  }
+
   registerUser(name:string, email:string, password:string) {
-    const body:AuthData = {
-      name,
-      email,
-      password
-    }
-    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/users', body)
+    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/users', { name, email, password })
       .subscribe(t => {
         this.token = t.token;
-        this.isAdmin = t.isAdmin;
-        if(this.token.length > 1){
+        if(this.token){
           this.isAuthenticated = true;
+          this.isAdmin = t.isAdmin;
           this.authStatusListener.next(true);
+          this.adminStatusListener.next(t.isAdmin);
           this.saveAuthData(this.token);
           this.router.navigate(['/schedules']);
         }
       })
   }
 
-  autoAuthUser() {
-    const authToken = this.getAuthData();
-    if(!authToken) {
-      return;
-    }
-    this.token = authToken;
-    this.isAuthenticated = true;
-    this.saveAuthData(authToken);
-    this.authStatusListener.next(true);
-  }
-
   loginUser(email:string, password:string) {
-    const body = {
-      email,
-      password
-    }
 
-    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/auth', body)
+    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/auth', { email, password })
       .subscribe(t => {
+        console.log(t)
         this.token = t.token;
-        this.isAdmin = t.isAdmin;
-        if(this.token.length > 1){
+        if(this.token){
           this.isAuthenticated = true;
+          this.isAdmin = t.isAdmin;
           this.saveAuthData(this.token);
           this.authStatusListener.next(true);
+          this.adminStatusListener.next(t.isAdmin);
           this.router.navigate(['/schedules']);
         }
       })
@@ -89,12 +78,25 @@ export class AuthService {
       this.router.navigate(['/']);
     }
 
+    autoAuthUser() {
+      const authToken = this.getAuthData();
+      if(!authToken) {
+        return;
+      }
+      console.log(this.isAdmin);
+      this.token = authToken;
+      this.isAuthenticated = true;
+      this.saveAuthData(authToken);
+      this.authStatusListener.next(true);
+    }
+
     private saveAuthData(token:string) {
       localStorage.setItem('token', token);
     }
 
     private clearAuthData() {
       localStorage.removeItem('token');
+      
     }
 
     private getAuthData() {
@@ -102,7 +104,6 @@ export class AuthService {
       if(!token){
         return;
       }
-
       return token
     }
 }

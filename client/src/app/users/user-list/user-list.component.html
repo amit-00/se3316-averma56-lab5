@@ -1,1 +1,10 @@
-<p>user-list works!</p>
+<ul *ngIf="users?.length > 0" >
+    <app-user-item *ngFor="let user of pageSlice" [user]="user" ></app-user-item>
+</ul>
+<p class="mat-body-1" *ngIf="users?.length <= 0" >No Results</p>
+<mat-paginator  
+        [length]="users?.length"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)">
+</mat-paginator> 

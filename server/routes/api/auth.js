@@ -14,7 +14,7 @@ router.get('/', auth, async (req, res) => {
     try{
        const user = await User.findById(req.user.id).select('-password');
         if(user.deactivated){
-            return res.json(400).json({ errors: [{ msg: 'Account is deactivated' }] })
+            return res.status(400).json({ errors: [{ msg: 'Account is deactivated' }] })
         }
 
        res.json(user);
@@ -44,6 +44,9 @@ router.post('/', [
         let user = await User.findOne({ email });
         if(!user){
             return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
+        }
+        if(user.deactivated){
+            return res.status(400).json({ errors: [{ msg: 'Account is deactivated' }] })
         }
         
         const isMatch = await bcrypt.compare(password, user.password);

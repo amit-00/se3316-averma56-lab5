@@ -8,6 +8,7 @@ import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import { SingleCourseComponent } from './layout/single-course/single-course.component';
 import { ScheduleBuilderComponent } from './layout/schedule-builder/schedule-builder.component';
+import { AdminDashboardComponent } from './layout/admin-dashboard/admin-dashboard.component'
 import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
 
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'course/:courseId', component: SingleCourseComponent, canActivate: [AuthGuard] },
   { path: 'builder/:scheduleId', component: ScheduleBuilderComponent, canActivate: [AuthGuard] },
   { path: 'schedules', component: ScheduleViewerComponent, canActivate: [AuthGuard] },
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'public', component: PublicSchedulesComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },

@@ -63,12 +63,12 @@ router.post('/', [
 //@route    GET api/users/admin
 //@desc     admin gets users
 //@access   Private
-router.put('/admin', auth, async (req, res) => {
+router.get('/admin', auth, async (req, res) => {
     if(!req.user.isAdmin){
         return res.status(401).json({ errors: [{ msg: 'Unauthorized Request' }] });
     }
     try{
-        const users = await User.find().select('-password');
+        const users = await User.find({}).select('-password');
         res.json(users)
     }
     catch(err){

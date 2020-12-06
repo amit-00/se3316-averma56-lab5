@@ -9,15 +9,22 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private authListenerSub: Subscription;
+  private adminListenerSub: Subscription;
   isAuth: boolean = false;
+  isAdmin:boolean = false;
   constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
     this.isAuth = this.authService.getIsAuth();
+    this.isAdmin = this.authService.getIsAdmin();
     this.authListenerSub = this.authService.getAuthStatus()
       .subscribe(isAuthenticated => {
         this.isAuth = isAuthenticated;
       });
+    this.adminListenerSub = this.authService.getAdminStatus()
+      .subscribe(isAdmin => {
+        this.isAdmin = isAdmin;
+      })
   }
 
   ngOnDestroy(): void {
