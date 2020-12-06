@@ -9,6 +9,7 @@ import { RegisterPageComponent } from './auth/register-page/register-page.compon
 import { SingleCourseComponent } from './layout/single-course/single-course.component';
 import { ScheduleBuilderComponent } from './layout/schedule-builder/schedule-builder.component';
 import { AuthGuard } from './auth/auth.guard';
+import { AdminGuard } from './auth/admin.guard';
 
 const routes: Routes = [
   { path: 'search', component: CourseViewerComponent },
@@ -25,6 +26,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: [AuthGuard, AdminGuard]
 })
 export class AppRoutingModule { }

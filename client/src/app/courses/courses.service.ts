@@ -54,6 +54,6 @@ export class CoursesService {
   }
 
   courseUpdateListener() {
-    return this.coursesUpdated.asObservable()
+    return this.coursesUpdated.asObservable();
   }
 }

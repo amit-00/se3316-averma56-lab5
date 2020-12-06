@@ -37,6 +37,8 @@ import { ReviewListComponent } from './courses/review-list/review-list.component
 import { ScheduleBuilderComponent } from './layout/schedule-builder/schedule-builder.component';
 import { ScheduleCourseViewComponent } from './schedules/schedule-course-view/schedule-course-view.component';
 import { CourseViewItemComponent } from './schedules/course-view-item/course-view-item.component';
+import { UserItemComponent } from './users/user-item/user-item.component';
+import { UserListComponent } from './users/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { CourseViewItemComponent } from './schedules/course-view-item/course-vie
     ReviewListComponent,
     ScheduleBuilderComponent,
     ScheduleCourseViewComponent,
-    CourseViewItemComponent
+    CourseViewItemComponent,
+    UserItemComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

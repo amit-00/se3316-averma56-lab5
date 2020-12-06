@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 })
 export class AuthService {
   private isAuthenticated:boolean = false;
+  private isAdmin:boolean = false;
   private token:string  = '';
   private authStatusListener = new Subject<boolean>();
 
@@ -23,6 +24,10 @@ export class AuthService {
     return this.isAuthenticated;
   }
 
+  getIsAdmin() {
+    return this.isAdmin;
+  }
+
   getAuthStatus() {
     return this.authStatusListener.asObservable();
   }
@@ -33,10 +38,12 @@ export class AuthService {
       email,
       password
     }
-    this.http.post<{token:string}>('http://localhost:5000/api/users', body)
+    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/users', body)
       .subscribe(t => {
         this.token = t.token;
+        this.isAdmin = t.isAdmin;
         if(this.token.length > 1){
+          this.isAuthenticated = true;
           this.authStatusListener.next(true);
           this.saveAuthData(this.token);
           this.router.navigate(['/schedules']);
@@ -61,9 +68,10 @@ export class AuthService {
       password
     }
 
-    this.http.post<{token:string}>('http://localhost:5000/api/auth', body)
+    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/auth', body)
       .subscribe(t => {
         this.token = t.token;
+        this.isAdmin = t.isAdmin;
         if(this.token.length > 1){
           this.isAuthenticated = true;
           this.saveAuthData(this.token);
