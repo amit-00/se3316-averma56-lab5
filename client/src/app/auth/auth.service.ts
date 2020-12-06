@@ -4,6 +4,10 @@ import { AuthData } from '../models/AuthData.model';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
+const API_URL = `${environment.apiUrl}`
+
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +43,7 @@ export class AuthService {
   }
 
   registerUser(name:string, email:string, password:string) {
-    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/users', { name, email, password })
+    this.http.post<{token:string, isAdmin:boolean}>(`${API_URL}/users`, { name, email, password })
       .subscribe(t => {
         this.token = t.token;
         if(this.token){
@@ -57,7 +61,7 @@ export class AuthService {
 
   loginUser(email:string, password:string) {
 
-    this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/auth', { email, password })
+    this.http.post<{token:string, isAdmin:boolean}>(`${API_URL}/auth`, { email, password })
       .subscribe(t => {
         this.token = t.token;
         if(this.token){

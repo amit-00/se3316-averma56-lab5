@@ -4,6 +4,10 @@ import { Schedule } from '../models/Schedule.model';
 import { Subject } from 'rxjs'
 import { Router } from '@angular/router';
 
+import { environment } from '../../environments/environment';
+
+const API_URL = `${environment.apiUrl}` 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +23,7 @@ export class SchedulesService {
   constructor(private http: HttpClient, private router:Router) { }
 
   getPublicSchedules() {
-    this.http.get<Schedule[]>('http://localhost:5000/api/schedule/public')
+    this.http.get<Schedule[]>(`${API_URL}/schedule/public`)
       .subscribe((schedules) => {
         this.publicSchedules = schedules;
         this.publicSchedulesUpdated.next([...this.publicSchedules]);
@@ -27,7 +31,7 @@ export class SchedulesService {
   }
 
   getSchedules() {
-    this.http.get<Schedule[]>('http://localhost:5000/api/schedule/user')
+    this.http.get<Schedule[]>(`${API_URL}/schedule/user`)
       .subscribe((schedules) => {
         this.userSchedules = schedules;
         this.userSchedulesUpdated.next([...this.userSchedules]);
@@ -35,11 +39,11 @@ export class SchedulesService {
   }
 
   getUserSchedule(id:string|null) {
-    return this.http.get<Schedule>(`http://localhost:5000/api/schedule/${id}`);
+    return this.http.get<Schedule>(`${API_URL}/schedule/${id}`);
   }
 
   getCurrentSchedule(id:string) {
-    this.http.get<Schedule>(`http://localhost:5000/api/schedule/${id}`)
+    this.http.get<Schedule>(`${API_URL}/schedule/${id}`)
       .subscribe(schedule => {
         this.currentSchedule = schedule;
         this.currentScheduleUpdated.next({...this.currentSchedule});
@@ -50,7 +54,7 @@ export class SchedulesService {
     const body = {
       courseId
     }
-    this.http.put<Schedule>(`http://localhost:5000/api/schedule/courses/add/${id}`, body)
+    this.http.put<Schedule>(`${API_URL}schedule/courses/add/${id}`, body)
       .subscribe(schedule => {
         this.currentSchedule = schedule;
         this.currentScheduleUpdated.next({...this.currentSchedule});
@@ -58,7 +62,7 @@ export class SchedulesService {
   }
 
   deleteCourse(id:string, courseId:string) {
-    this.http.delete<Schedule>(`http://localhost:5000/api/schedule/courses/delete/${id}/${courseId}`)
+    this.http.delete<Schedule>(`${API_URL}/schedule/courses/delete/${id}/${courseId}`)
       .subscribe(schedule => {
         this.currentSchedule = schedule;
         this.currentScheduleUpdated.next({...this.currentSchedule});
@@ -71,7 +75,7 @@ export class SchedulesService {
       desc,
       isPublic
     }
-    this.http.post<Schedule>('http://localhost:5000/api/schedule', body)
+    this.http.post<Schedule>(`${API_URL}/schedule`, body)
       .subscribe((schedule) => {
         this.userSchedules.push(schedule);
         this.userSchedulesUpdated.next([...this.userSchedules]);
@@ -85,7 +89,7 @@ export class SchedulesService {
       desc,
       isPublic
     }
-    this.http.put<Schedule>(`http://localhost:5000/api/schedule/update/${id}`, body)
+    this.http.put<Schedule>(`${API_URL}/schedule/update/${id}`, body)
       .subscribe(schedule => {
         const newSchedules = this.userSchedules.filter(sche => sche._id !== schedule._id);
         newSchedules.unshift(schedule);
@@ -96,7 +100,7 @@ export class SchedulesService {
   }
 
   deleteSchedule(id: string) {
-    this.http.delete(`http://localhost:5000/api/schedule/delete/${id}`)
+    this.http.delete(`${API_URL}/schedule/delete/${id}`)
       .subscribe(() => {
         const updatedSchedules = this.userSchedules.filter(schedule => schedule._id !== id);
         this.userSchedules = updatedSchedules;

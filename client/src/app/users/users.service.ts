@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { User } from '../models/User.model'
 
+import { environment } from '../../environments/environment';
+
+const API_URL = `${environment.apiUrl}`
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +17,7 @@ export class UsersService {
   constructor(private http:HttpClient) { }
 
   getUsers() {
-    this.http.get<User[]>('http://localhost:5000/api/users/admin')
+    this.http.get<User[]>(API_URL)
       .subscribe(users => {
         this.users = users;
         this.usersUpdated.next([...this.users]);
@@ -25,7 +28,7 @@ export class UsersService {
     const body = {
       isAdmin
     }
-    this.http.put<User>(`http://localhost:5000/api/users/admin/admin-status/${id}`, body)
+    this.http.put<User>(`${API_URL}/users/admin/admin-status/${id}`, body)
       .subscribe(user => {
         const newUsers = this.users.filter(u => u._id !== user._id);
         newUsers.unshift(user);
@@ -38,7 +41,7 @@ export class UsersService {
     const body = {
       deactivated
     }
-    this.http.put<User>(`http://localhost:5000/api/users/admin/active-status/${id}`, body)
+    this.http.put<User>(`${API_URL}/users/admin/active-status/${id}`, body)
       .subscribe(user => {
         const newUsers = this.users.filter(u => u._id !== user._id);
         newUsers.unshift(user);

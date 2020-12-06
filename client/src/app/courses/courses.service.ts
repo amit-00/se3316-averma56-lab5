@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { Course } from '../models/Course.model';
 import { Subject } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
+const API_URL = `${environment.apiUrl}`
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +19,7 @@ export class CoursesService {
   constructor(private http: HttpClient, private router:Router) { }
 
   getCourses() {
-    this.http.get<Course[]>('http://localhost:5000/api/courses')
+    this.http.get<Course[]>(`${API_URL}/courses`)
       .subscribe((courses) => {
         this.courses = courses;
         this.coursesUpdated.next([...this.courses]);
@@ -23,7 +27,7 @@ export class CoursesService {
   }
 
   getCourse(id:string) {
-    return this.http.get<Course>(`http://localhost:5000/api/courses/${id}`);
+    return this.http.get<Course>(`${API_URL}/courses/${id}`);
   }
 
   searchCourses(code:string, subject:string, component:string, key:string) {
@@ -39,7 +43,7 @@ export class CoursesService {
     if (key === null){
       key = ''
     }
-    this.http.get<Course[]>(`http://localhost:5000/api/courses/search/query?code=${code}&subject=${subject}&component=${component}&key=${key}`)
+    this.http.get<Course[]>(`${API_URL}/courses/search/query?code=${code}&subject=${subject}&component=${component}&key=${key}`)
     .subscribe((courses) => {
       this.courses = courses;
       this.coursesUpdated.next([...this.courses]);
@@ -47,7 +51,7 @@ export class CoursesService {
   }
 
   addReview(comment:string, id:string) {
-    this.http.put<Course>(`http://localhost:5000/api/courses/reviews/${id}`, { comment })
+    this.http.put<Course>(`${API_URL}/courses/reviews/${id}`, { comment })
       .subscribe(course => {
         this.router.navigate([`/search`]);
       })

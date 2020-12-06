@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { Doc } from '../models/Doc.model';
 import { Subject } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
+const API_URL = `${environment.apiUrl}` 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +22,7 @@ export class DocsService {
   }
 
   getDocs() {
-    this.http.get<Doc[]>('http://localhost:5000/api/docs')
+    this.http.get<Doc[]>(`${API_URL}/docs`)
       .subscribe((docs) => {
         this.docs = docs;
         this.docsUpdated.next([...this.docs]);
@@ -26,7 +30,7 @@ export class DocsService {
   }
 
   updateDoc(id:string, content:string) {
-    this.http.put<Doc>(`http://localhost:5000/api/docs/${id}`, {content})
+    this.http.put<Doc>(`${API_URL}/docs/${id}`, {content})
       .subscribe(doc => {
         const newDocs = this.docs.filter(d => d._id !== doc._id);
         newDocs.unshift(doc);
@@ -37,11 +41,11 @@ export class DocsService {
   }
 
   getDocById(id:string){
-    return this.http.get<Doc>(`http://localhost:5000/api/docs/doc/${id}`);
+    return this.http.get<Doc>(`${API_URL}/docs/doc/${id}`);
   }
 
   getDocByTitle(title:string) {
-    return this.http.get<Doc>(`http://localhost:5000/api/docs/title/${title}`);
+    return this.http.get<Doc>(`${API_URL}/docs/title/${title}`);
   }
 
 }
