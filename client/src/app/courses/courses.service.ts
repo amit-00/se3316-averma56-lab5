@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Course } from '../models/Course.model';
 import { Subject } from 'rxjs';
 
@@ -10,7 +11,8 @@ export class CoursesService {
   private courses:Course[] = [];
   private coursesUpdated = new Subject<Course[]>();
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, private router:Router) { }
 
   getCourses() {
     this.http.get<Course[]>('http://localhost:5000/api/courses')
@@ -20,7 +22,11 @@ export class CoursesService {
       });
   }
 
-  searchCourses(code:String, subject:String, component:String, key:String) {
+  getCourse(id:string) {
+    return this.http.get<Course>(`http://localhost:5000/api/courses/${id}`);
+  }
+
+  searchCourses(code:string, subject:string, component:string, key:string) {
     if (code === null){
       code = ''
     }
@@ -40,8 +46,14 @@ export class CoursesService {
     });
   }
 
+  addReview(comment:string, id:string) {
+    this.http.put<Course>(`http://localhost:5000/api/courses/reviews/${id}`, { comment })
+      .subscribe(course => {
+        this.router.navigate([`/search`]);
+      })
+  }
+
   courseUpdateListener() {
     return this.coursesUpdated.asObservable()
   }
-
 }

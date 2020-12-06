@@ -31,6 +31,10 @@ import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import { PublicSchedulesComponent } from './layout/public-schedules/public-schedules.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { SingleCourseComponent } from './layout/single-course/single-course.component';
+import { ReviewItemComponent } from './courses/review-item/review-item.component';
+import { ReviewListComponent } from './courses/review-list/review-list.component';
+import { ScheduleBuilderComponent } from './layout/schedule-builder/schedule-builder.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +51,11 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     ScheduleListComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    PublicSchedulesComponent
+    PublicSchedulesComponent,
+    SingleCourseComponent,
+    ReviewItemComponent,
+    ReviewListComponent,
+    ScheduleBuilderComponent
   ],
   imports: [
     BrowserModule,

@@ -67,16 +67,9 @@ const CourseSchema = new Schema({
             name: {
                 type: String
             },
-            level: {
-                type: Number,
-                required: true
-            },
             comment: {
-                type: String
-            },
-            hidden: {
-                type: Boolean,
-                default: false
+                type: String,
+                required: true
             },
             date: {
                 type: Date,

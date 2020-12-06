@@ -20,6 +20,23 @@ router.get('/', async(req, res) => {
     }
 });
 
+//@route    GET /api/courses/:id
+//@desc     Get single course
+//@access   public
+router.get('/:id', auth, async(req, res) => {
+    try{
+        const course = await Course.findById(req.params.id);
+        if(!course) {
+            return res.status(404).json({errors: [{ msg: 'course not found' }] });
+        }
+        res.json(course);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 //@route    GET /api/courses/search?code=&subject=&component=&key=
 //@desc     Get all courses with course code in DB
 //@access   public
@@ -113,18 +130,16 @@ router.get('/search', async(req, res) => {
 //@route    PUT /api/courses/reviews/:id
 //@desc     Get all courses in DB
 //@access   public
-router.put('/reviews/id', auth,[
-    check('level').trim().escape(),
+router.put('/reviews/:id', auth,[
     check('comment').trim().escape()
 ], async(req, res) => {
-    const { level, comment } = req.body;
+    const { comment } = req.body;
     try{
         const commenter = await User.findById(req.user.id);
 
         const review = {
             user: commenter.id,
             name: commenter.name,
-            level,
             comment,
             hidden: false
         }

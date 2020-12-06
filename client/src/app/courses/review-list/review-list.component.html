@@ -1,0 +1,8 @@
+<app-review-item *ngFor="let review of pageSlice" [review]="review" ></app-review-item>
+<p class="mat-body-1" *ngIf="reviews?.length <= 0" >No Results</p>
+<mat-paginator  
+        [length]="reviews?.length"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)">
+</mat-paginator> 

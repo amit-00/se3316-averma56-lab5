@@ -1,9 +1,5 @@
-<mat-expansion-panel>
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            {{ title }}
-        </mat-panel-title>
-    </mat-expansion-panel-header>
+<mat-card *ngIf="!isLoading">
+    <h1>{{ title }}</h1>
     <p>{{ course.catalog_description }}</p>
     <table>
         <tr>
@@ -29,7 +25,23 @@
             <td>{{ course.course_info[0].enrl_stat }}</td>
         </tr>
     </table>
-    <mat-action-row>
-        <a mat-button color="primary" [routerLink]="['/course', course._id]" >VIEW COURSE</a>
-    </mat-action-row>
-</mat-expansion-panel>
+</mat-card>
+
+<mat-card>
+    <h1>Create Review</h1>
+    <form [formGroup]="form" (submit)="addReview()" >
+        <mat-form-field>
+            <mat-label>Comment</mat-label>
+            <textarea
+            rows="6"
+            matInput 
+            type="text" 
+            formControlName="comment" ></textarea>
+            <mat-error *ngIf="form.get('comment').invalid" >Please enter valid comment</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="accent" type="submit" [disabled]="form.get('comment').invalid" >Save</button>
+    </form>
+</mat-card>
+<mat-spinner *ngIf="isLoading" ></mat-spinner>
+<app-review-list *ngIf="!isLoading" [reviews]="course.reviews" [pageSlice]="pageSlice" ></app-review-list>
+

@@ -88,7 +88,7 @@ router.post('/', auth,[
         //     name = name.replace(/[<>?(){}]/g, '');
         // }
 
-        let schedule = await Schedule.findOne({ name });
+        let schedule = await Schedule.findOne({ user: req.user.id, name });
         if(schedule){
             return res.status(400).json({ errors: [{ msg: 'Schedule already exists' }] });
         }

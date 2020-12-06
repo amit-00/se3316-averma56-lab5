@@ -25,7 +25,7 @@ export class SchedulesService {
   }
 
   getSchedules() {
-    this.http.get<Schedule[]>('http://localhost:5000/api/schedule')
+    this.http.get<Schedule[]>('http://localhost:5000/api/schedule/user')
       .subscribe((schedules) => {
         this.userSchedules = schedules;
         this.userSchedulesUpdated.next([...this.userSchedules]);

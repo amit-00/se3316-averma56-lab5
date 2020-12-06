@@ -1,6 +1,5 @@
 export interface Review{
-    user: String;
-    name: String;
-    level: Number;
+    name: string;
+    comment: string;
     date: Date;
 }
