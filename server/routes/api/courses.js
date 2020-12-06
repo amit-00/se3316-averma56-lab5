@@ -11,6 +11,7 @@ const User = require('../../models/User');
 //@access   public
 router.get('/', async(req, res) => {
     try{
+        console.log('working')
         const courses = await Course.find()
         res.json(courses);
     }
@@ -37,16 +38,15 @@ router.get('/:id', auth, async(req, res) => {
     }
 });
 
-//@route    GET /api/courses/search?code=&subject=&component=&key=
+//@route    GET /api/courses/search/query?code=&subject=&component=&key=
 //@desc     Get all courses with course code in DB
 //@access   public
-router.get('/search', async(req, res) => {
+router.get('/search/query', async(req, res) => {
     try{
         const cata = req.query.code;
         const component = req.query.component;
         const key = req.query.key;
         const sub = req.query.subject;
-
 
         if(key){
             const courses = await Course.find({$text : { $search : key }});
@@ -138,10 +138,8 @@ router.put('/reviews/:id', auth,[
         const commenter = await User.findById(req.user.id);
 
         const review = {
-            user: commenter.id,
             name: commenter.name,
-            comment,
-            hidden: false
+            comment
         }
 
         const course = await Course.findById(req.params.id);

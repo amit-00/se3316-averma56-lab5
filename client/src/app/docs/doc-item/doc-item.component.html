@@ -1,0 +1,9 @@
+<li>
+    <mat-card>
+        <h1>{{ doc.title }}</h1>
+        <h3>{{ stringAsDate(doc.modified) | date:'MM-dd-yy   HH:mm:ss' }}</h3>
+        <mat-card-actions>
+            <a mat-button color="primary"> EDIT </a>
+        </mat-card-actions>
+    </mat-card>
+</li>

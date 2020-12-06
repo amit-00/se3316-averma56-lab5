@@ -23,10 +23,10 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-//@route    GET api/docs/doc/:title
+//@route    GET api/docs/title/:title
 //@desc     get single doc
 //@access   Private
-router.get('/doc/:title', auth, async (req, res) => {
+router.get('/doc/:title', async (req, res) => {
     try{
         const doc = await Doc.findOne({ title: req.params.title });
         if(!doc){
@@ -42,7 +42,29 @@ router.get('/doc/:title', auth, async (req, res) => {
     }
 });
 
-//@route    PUT api/docs
+//@route    GET api/docs/doc/:id
+//@desc     get single doc by id
+//@access   Private
+router.get('/doc/:id', auth, async (req, res) => {
+    if(!req.user.isAdmin){
+        return res.status(401).json({ errors:[{ msg: 'Not Authorized' }] });
+    }
+    try{
+        const doc = await Doc.findById(req.params.id);
+        if(!doc){
+            return res.status(404).json({ errors:[{ msg: 'Doc Not Found' }] });
+        }
+
+        res.json(doc);
+
+    }
+    catch(err){
+        console.error(err.message);
+        res.stats(500).send('Server Error');
+    }
+});
+
+//@route    PUT api/docs/:id
 //@desc     update Docs
 //@access   Private
 router.post('/:id', auth, [

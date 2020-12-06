@@ -40,6 +40,8 @@ import { CourseViewItemComponent } from './schedules/course-view-item/course-vie
 import { UserItemComponent } from './users/user-item/user-item.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { AdminDashboardComponent } from './layout/admin-dashboard/admin-dashboard.component';
+import { DocListComponent } from './docs/doc-list/doc-list.component';
+import { DocItemComponent } from './docs/doc-item/doc-item.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { AdminDashboardComponent } from './layout/admin-dashboard/admin-dashboar
     CourseViewItemComponent,
     UserItemComponent,
     UserListComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    DocListComponent,
+    DocItemComponent
   ],
   imports: [
     BrowserModule,

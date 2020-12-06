@@ -1,2 +1,3 @@
 <mat-spinner *ngIf="isLoading" ></mat-spinner>
+<app-doc-list *ngIf="!isLoading" ></app-doc-list>
 <app-user-list *ngIf="!isLoading" [users]="users" [pageSlice]="pageSlice" ></app-user-list>

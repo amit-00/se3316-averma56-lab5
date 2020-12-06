@@ -1,0 +1,5 @@
+<h1>Documents: </h1>
+<ul *ngIf="!isLoading" >
+    <app-doc-item *ngFor="let doc of docs" [doc]="doc" ></app-doc-item>
+</ul>
+<mat-spinner *ngIf="isLoading" ></mat-spinner>

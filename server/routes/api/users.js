@@ -68,7 +68,7 @@ router.get('/admin', auth, async (req, res) => {
         return res.status(401).json({ errors: [{ msg: 'Unauthorized Request' }] });
     }
     try{
-        const users = await User.find({}).select('-password');
+        const users = await User.find({ _id: { $nin: req.user.id } }).select('-password');
         res.json(users)
     }
     catch(err){

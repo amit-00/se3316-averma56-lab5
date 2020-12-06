@@ -34,6 +34,10 @@ export class ScheduleItemComponent implements OnInit, OnDestroy {
     this.authStatusSub.unsubscribe();
   }
 
+  stringAsDate(dateStr: Date) {
+    return new Date(dateStr);
+  }
+
   deleteSchedule() {
     this.schedulesService.deleteSchedule(this.schedule._id);
   }

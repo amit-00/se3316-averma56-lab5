@@ -39,7 +39,7 @@ export class CoursesService {
     if (key === null){
       key = ''
     }
-    this.http.get<Course[]>(`http://localhost:5000/api/courses/search?code=${code}&subject=${subject}&component=${component}&key=${key}`)
+    this.http.get<Course[]>(`http://localhost:5000/api/courses/search/query?code=${code}&subject=${subject}&component=${component}&key=${key}`)
     .subscribe((courses) => {
       this.courses = courses;
       this.coursesUpdated.next([...this.courses]);

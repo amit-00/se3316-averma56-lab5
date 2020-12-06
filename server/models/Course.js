@@ -60,10 +60,6 @@ const CourseSchema = new Schema({
     },
     reviews: [
         {
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
             name: {
                 type: String
             },

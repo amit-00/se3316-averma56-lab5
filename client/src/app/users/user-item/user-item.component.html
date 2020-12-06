@@ -2,11 +2,11 @@
     <mat-card>
         <h1>{{ user.name }}</h1>
         <h2>{{ user.email }}</h2>
-        <mat-action-row>
+        <mat-card-actions>
             <button *ngIf="user.isAdmin" mat-button type="button" color="warn" (click)="changeAdminStatus()" >REMOVE ADMIN</button>
             <button *ngIf="!user.isAdmin" mat-button type="button" color="primary" (click)="changeAdminStatus()" >MAKE ADMIN</button>
             <button *ngIf="user.deactivated" mat-button type="button" color="primary" (click)="changeActiveStatus()" >REACTIVATE</button>
             <button *ngIf="!user.deactivated" mat-button type="button" color="warn" (click)="changeActiveStatus()" >DEACTIVATE</button>
-        </mat-action-row>
+        </mat-card-actions>
     </mat-card>
 </li>

@@ -4,7 +4,7 @@
             {{ schedule.name }}
         </mat-panel-title>
         <mat-panel-description>
-            {{ schedule.modified }}
+            {{ stringAsDate(schedule.modified) | date:'MM-dd-yy   HH:mm:ss' }}
         </mat-panel-description>
     </mat-expansion-panel-header>
     <h4>Description:</h4>
