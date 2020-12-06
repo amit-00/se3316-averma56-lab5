@@ -11,7 +11,7 @@ export class DocsService {
   private docs:Doc[] = [];
   private docsUpdated = new Subject<Doc[]>();
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private router:Router) { }
 
   docUpdateListener() {
     return this.docsUpdated.asObservable();
@@ -32,6 +32,7 @@ export class DocsService {
         newDocs.unshift(doc);
         this.docs = newDocs;
         this.docsUpdated.next([...this.docs]);
+        this.router.navigate(['/admin-dashboard']);
       })
   }
 

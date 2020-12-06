@@ -50,6 +50,8 @@ export class AuthService {
           this.saveAuthData(this.token);
           this.router.navigate(['/schedules']);
         }
+      }, error => {
+        this.authStatusListener.next(false);
       })
   }
 
@@ -57,7 +59,6 @@ export class AuthService {
 
     this.http.post<{token:string, isAdmin:boolean}>('http://localhost:5000/api/auth', { email, password })
       .subscribe(t => {
-        console.log(t)
         this.token = t.token;
         if(this.token){
           this.isAuthenticated = true;
@@ -67,6 +68,8 @@ export class AuthService {
           this.adminStatusListener.next(t.isAdmin);
           this.router.navigate(['/schedules']);
         }
+      }, error => {
+        this.authStatusListener.next(false);
       })
     }
 

@@ -1,7 +1,8 @@
 <main>
     <mat-card>
         <h1>Login</h1>
-        <form [formGroup]="form" (submit)="login()" >
+        <mat-spinner *ngIf="isLoading" ></mat-spinner>
+        <form *ngIf="!isLoading" [formGroup]="form" (submit)="login()" >
             <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input 

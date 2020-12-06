@@ -46,7 +46,7 @@ router.post('/', [
             return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
         }
         if(user.deactivated){
-            return res.status(400).json({ errors: [{ msg: 'Account is deactivated' }] })
+            return res.status(400).json({ errors: [{ msg: 'Account is deactivated. Please contact admin' }] })
         }
         
         const isMatch = await bcrypt.compare(password, user.password);

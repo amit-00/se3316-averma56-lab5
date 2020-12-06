@@ -26,7 +26,7 @@ router.get('/', auth, async (req, res) => {
 //@route    GET api/docs/title/:title
 //@desc     get single doc
 //@access   Private
-router.get('/doc/:title', async (req, res) => {
+router.get('/title/:title', async (req, res) => {
     try{
         const doc = await Doc.findOne({ title: req.params.title });
         if(!doc){
@@ -67,9 +67,7 @@ router.get('/doc/:id', auth, async (req, res) => {
 //@route    PUT api/docs/:id
 //@desc     update Docs
 //@access   Private
-router.post('/:id', auth, [
-    check('content').trim().escape()
-],async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     if(!req.user.isAdmin){
         return res.status(401).json({ errors:[{ msg: 'Not Authorized' }] });
     }

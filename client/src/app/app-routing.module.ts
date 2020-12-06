@@ -8,11 +8,15 @@ import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import { SingleCourseComponent } from './layout/single-course/single-course.component';
 import { ScheduleBuilderComponent } from './layout/schedule-builder/schedule-builder.component';
-import { AdminDashboardComponent } from './layout/admin-dashboard/admin-dashboard.component'
+import { AdminDashboardComponent } from './layout/admin-dashboard/admin-dashboard.component';
+import { DocEditorComponent } from './docs/doc-editor/doc-editor.component';
+import { DocViewerComponent } from './docs/doc-viewer/doc-viewer.component';
+import { HomeComponent } from './home/home.component'
 import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'search', component: CourseViewerComponent },
   { path: 'create', component: ScheduleMakerComponent, canActivate: [AuthGuard] },
   { path: 'edit/:scheduleId', component: ScheduleMakerComponent, canActivate: [AuthGuard] },
@@ -20,9 +24,11 @@ const routes: Routes = [
   { path: 'builder/:scheduleId', component: ScheduleBuilderComponent, canActivate: [AuthGuard] },
   { path: 'schedules', component: ScheduleViewerComponent, canActivate: [AuthGuard] },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'docs/:docId', component: DocEditorComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'public', component: PublicSchedulesComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
+  { path: 'docs/view/:docTitle', component: DocViewerComponent }
 ];
 
 @NgModule({

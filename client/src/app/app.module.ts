@@ -14,6 +14,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
+import { AuthInterceptor } from './auth/auth-interceptor';
+import { ErrorInterceptor } from './error-interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +34,6 @@ import { ScheduleListComponent } from './schedules/schedule-list/schedule-list.c
 import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import { PublicSchedulesComponent } from './layout/public-schedules/public-schedules.component';
-import { AuthInterceptor } from './auth/auth-interceptor';
 import { SingleCourseComponent } from './layout/single-course/single-course.component';
 import { ReviewItemComponent } from './courses/review-item/review-item.component';
 import { ReviewListComponent } from './courses/review-list/review-list.component';
@@ -42,6 +45,10 @@ import { UserListComponent } from './users/user-list/user-list.component';
 import { AdminDashboardComponent } from './layout/admin-dashboard/admin-dashboard.component';
 import { DocListComponent } from './docs/doc-list/doc-list.component';
 import { DocItemComponent } from './docs/doc-item/doc-item.component';
+import { DocEditorComponent } from './docs/doc-editor/doc-editor.component';
+import { DocViewerComponent } from './docs/doc-viewer/doc-viewer.component';
+import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +76,11 @@ import { DocItemComponent } from './docs/doc-item/doc-item.component';
     UserListComponent,
     AdminDashboardComponent,
     DocListComponent,
-    DocItemComponent
+    DocItemComponent,
+    DocEditorComponent,
+    DocViewerComponent,
+    FooterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -86,9 +97,11 @@ import { DocItemComponent } from './docs/doc-item/doc-item.component';
     MatPaginatorModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, 
+              { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

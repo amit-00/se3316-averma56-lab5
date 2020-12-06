@@ -1,6 +1,9 @@
 <mat-toolbar color="primary">
-    <span>
+    <span *ngIf="!isAuth">
         <a routerLink="/">WesternSearch</a>
+    </span>
+    <span *ngIf="isAuth">
+        <a>WesternSearch</a>
     </span>
     <span class="spacer"></span>
     <ul>

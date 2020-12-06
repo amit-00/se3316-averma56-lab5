@@ -1,7 +1,8 @@
 <main>
     <mat-card>
         <h1>Register</h1>
-        <form [formGroup]="form" (submit)="register()" >
+        <mat-spinner *ngIf="isLoading" ></mat-spinner>
+        <form *ngIf="!isLoading" [formGroup]="form" (submit)="register()" >
             <mat-form-field>
                 <mat-label>Name</mat-label>
                 <input 

@@ -1,0 +1,11 @@
+<h1>{{ doc.title }}</h1>
+<form [formGroup]="form">
+    <mat-form-field>
+        <textarea
+        rows="50"
+        [disabled]="true"
+        matInput 
+        type="text"
+        formControlName="content"></textarea>
+    </mat-form-field>
+</form>
