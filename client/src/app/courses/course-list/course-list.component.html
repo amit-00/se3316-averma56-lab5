@@ -1,5 +1,5 @@
 <mat-accordion displayMode="default" *ngIf="courses?.length > 0">
-    <app-course-item *ngFor="let course of pageSlice" [course]="course" ></app-course-item>   
+    <app-course-item *ngFor="let course of pageSlice" [course]="course" [isBuilder]="isBuilder" [scheduleId]="scheduleId" ></app-course-item>   
 </mat-accordion>
 <p class="mat-body-1" *ngIf="courses?.length <= 0" >No Results</p>
 <mat-paginator  

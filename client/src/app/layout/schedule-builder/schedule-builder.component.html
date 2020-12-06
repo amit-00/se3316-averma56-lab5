@@ -1,1 +1,6 @@
-<p>schedule-builder works!</p>
+<h1>Schedule Builder: {{ schedule?.name }}</h1>
+<mat-spinner *ngIf="isLoading" ></mat-spinner>
+<app-schedule-course-view *ngIf="!isLoading" [schedule]="schedule" ></app-schedule-course-view>
+<app-course-search *ngIf="!isLoading" ></app-course-search>
+<app-course-list *ngIf="!isLoading" [courses]="courses" [pageSlice]="pageSlice" [isBuilder]="true" [scheduleId]="scheduleId" ></app-course-list>
+

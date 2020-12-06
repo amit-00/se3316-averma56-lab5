@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SchedulesService } from '../../schedules/schedules.service';
 import { Course } from '../../models/Course.model';
 
 @Component({
@@ -9,12 +10,21 @@ import { Course } from '../../models/Course.model';
 export class CourseItemComponent implements OnInit {
   title:string = '';
   @Input() course:Course;
+  @Input() isBuilder:boolean;
+  @Input() scheduleId:string;
 
 
-  constructor() { }
+  constructor(private schedulesService:SchedulesService) { }
 
   ngOnInit(): void {
     this.title = `${this.course.subject} ${this.course.catalog_nbr} - ${this.course.className}`
+  }
+
+  addToSchedule() {
+    if(!this.scheduleId && !this.isBuilder){
+      return;
+    }
+    this.schedulesService.addCourse(this.scheduleId, this.course._id);
   }
 
   //Dynamic Classes

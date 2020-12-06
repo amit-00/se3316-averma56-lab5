@@ -1,0 +1,6 @@
+<mat-card>
+    <h2>Courses:</h2>
+    <ul>
+        <app-course-view-item *ngFor="let course of schedule.courses" [course]="course" [scheduleId]="schedule._id" ></app-course-view-item>
+    </ul>
+</mat-card>

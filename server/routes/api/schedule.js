@@ -11,7 +11,7 @@ const Schedule = require('../../models/Schedule');
 //@access   public
 router.get('/', auth, async(req, res) => {
     try{
-        const schedules = await Schedule.find().populate('course').sort({ modified: -1 });
+        const schedules = await Schedule.find().populate('courses').sort({ modified: -1 });
 
         res.json(schedules);
     }
@@ -26,7 +26,7 @@ router.get('/', auth, async(req, res) => {
 //@access   public
 router.get('/user', auth, async(req, res) => {
     try{
-        const schedules = await Schedule.find({ user: req.user.id }).populate('course').sort({ modified: -1 });
+        const schedules = await Schedule.find({ user: req.user.id }).populate('courses').sort({ modified: -1 });
 
         res.json(schedules);
     }
@@ -42,7 +42,7 @@ router.get('/user', auth, async(req, res) => {
 router.get('/public', async (req, res) => {
     try{
         //returns 10 latest public schedules from db
-        const schedules = await Schedule.find({ isPublic: true }).populate('course').sort({ modified: -1 }).limit(10);
+        const schedules = await Schedule.find({ isPublic: true }).populate('courses').sort({ modified: -1 }).limit(10);
         res.json(schedules);
     }
     catch(err){
@@ -57,7 +57,7 @@ router.get('/public', async (req, res) => {
 router.get('/:id', auth, async(req, res) => {
     let id = req.params.id;
     try{
-        const schedule = await Schedule.findById(id).populate('course');
+        const schedule = await Schedule.findById(id).populate('courses');
         if(!schedule){
             return res.status(404).json({ errors: [{ msg: 'Schedule does not exist' }] });
         }
@@ -185,26 +185,26 @@ router.delete('/delete/:id', auth,async(req, res) => {
 });
 
 
-//@route    PUT /api/schedule/courses/add
+//@route    PUT /api/schedule/courses/add/:id
 //@desc     add/update course in schedule
 //@access   public
 router.put('/courses/add/:id', auth, async (req, res) => {
-    const { scheduleId } = req.body
+    const { courseId } = req.body
     try{
-        let schedule = await Schedule.findOne({ user: req.user.id, _id: scheduleId });
+        let schedule = await Schedule.findOne({ user: req.user.id, _id: req.params.id });
         if(!schedule){
             return res.status(404).send('Schedule not found');
         }
         const newSchedule = schedule.courses.filter(course => { 
-            const test = course._id != _id
+            const test = course._id != courseId
             return test
         });
         schedule.courses = newSchedule;
-        schedule.courses.push({ _id });
+        schedule.courses.push({ _id: courseId });
 
         await schedule.save();
 
-        schedule = await Schedule.findOne({ user: req.user.id, _id: scheduleId }).populate('course');
+        schedule = await Schedule.findOne({ user: req.user.id, _id: req.params.id }).populate('courses');
         if(!schedule){
             return res.status(404).send('Schedule not found');
         }
@@ -221,20 +221,24 @@ router.put('/courses/add/:id', auth, async (req, res) => {
 //@access   public
 router.delete('/courses/delete/:schedule/:id', auth, async (req, res) => {
     try{
-        let schedule = await Schedule.findOne({ user: req.user.id, _id: scheduleId });
+        let schedule = await Schedule.findOne({ user: req.user.id, _id: req.params.schedule });
         
         if(!schedule){
             return res.status(404).send('Schedule not found');
         }
 
         const newSchedule = schedule.courses.filter(course => {
-            const test = course._id != id
+            const test = course._id != req.params.id
             return test
         });
         schedule.courses = newSchedule;
 
         await schedule.save();
 
+        schedule = await Schedule.findOne({ user: req.user.id, _id: req.params.schedule }).populate('courses');
+        if(!schedule){
+            return res.status(404).send('Schedule not found');
+        }
         res.json(schedule);
     }
     catch(err){

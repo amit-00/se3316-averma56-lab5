@@ -1,0 +1,13 @@
+:host{
+    display: block;
+    margin: 1rem auto;
+}
+
+mat-card{
+    display: flex;
+    justify-content: space-between;
+}
+
+h3{
+    margin: 0;
+}

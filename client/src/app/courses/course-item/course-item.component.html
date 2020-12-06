@@ -30,6 +30,7 @@
         </tr>
     </table>
     <mat-action-row>
-        <a mat-button color="primary" [routerLink]="['/course', course._id]" >VIEW COURSE</a>
+        <a *ngIf="!isBuilder" mat-button color="primary" [routerLink]="['/course', course._id]" >VIEW COURSE</a>
+        <button *ngIf="isBuilder" mat-button type="button" color="primary" (click)="addToSchedule()" >ADD</button>
     </mat-action-row>
 </mat-expansion-panel>

@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
 })
 export class SchedulesService {
   private userSchedules: Schedule[] = [];
+  private currentSchedule: Schedule;
   private publicSchedules: Schedule[] = [];
+  private currentScheduleUpdated = new Subject<Schedule>();
   private userSchedulesUpdated = new Subject<Schedule[]>();
   private publicSchedulesUpdated = new Subject<Schedule[]>();
 
@@ -36,18 +38,30 @@ export class SchedulesService {
     return this.http.get<Schedule>(`http://localhost:5000/api/schedule/${id}`);
   }
 
-  addCourse(body:any) {
-    this.http.put<Schedule>('http://localhost:5000/api/schedule/courses/add', body)
+  getCurrentSchedule(id:string) {
+    this.http.get<Schedule>(`http://localhost:5000/api/schedule/${id}`)
       .subscribe(schedule => {
-        const newSchedules = this.userSchedules.map(sche => {
-          if(sche.name === schedule.name){
-            sche.courses = schedule.courses
-          }
-          return sche;
-        });
+        this.currentSchedule = schedule;
+        this.currentScheduleUpdated.next({...this.currentSchedule});
+      })
+  }
 
-        this.userSchedules = newSchedules;
-        this.userSchedulesUpdated.next([...this.userSchedules]);
+  addCourse(id:string, courseId:string) {
+    const body = {
+      courseId
+    }
+    this.http.put<Schedule>(`http://localhost:5000/api/schedule/courses/add/${id}`, body)
+      .subscribe(schedule => {
+        this.currentSchedule = schedule;
+        this.currentScheduleUpdated.next({...this.currentSchedule});
+      })
+  }
+
+  deleteCourse(id:string, courseId:string) {
+    this.http.delete<Schedule>(`http://localhost:5000/api/schedule/courses/delete/${id}/${courseId}`)
+      .subscribe(schedule => {
+        this.currentSchedule = schedule;
+        this.currentScheduleUpdated.next({...this.currentSchedule});
       })
   }
 
@@ -92,6 +106,10 @@ export class SchedulesService {
 
   userScheduleUpdateListener() {
     return this.userSchedulesUpdated.asObservable()
+  }
+
+  currentScheduleUpdateListener() {
+    return this.currentScheduleUpdated.asObservable()
   }
 
   publicScheduleUpdateListener() {

@@ -10,6 +10,8 @@ import { Course } from '../../models/Course.model';
 export class CourseListComponent implements OnInit {
   @Input() courses:Course[] = [];
   @Input() pageSlice: Course[];
+  @Input() isBuilder:boolean;
+  @Input() scheduleId:string;
 
   constructor() { }
 

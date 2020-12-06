@@ -35,6 +35,8 @@ import { SingleCourseComponent } from './layout/single-course/single-course.comp
 import { ReviewItemComponent } from './courses/review-item/review-item.component';
 import { ReviewListComponent } from './courses/review-list/review-list.component';
 import { ScheduleBuilderComponent } from './layout/schedule-builder/schedule-builder.component';
+import { ScheduleCourseViewComponent } from './schedules/schedule-course-view/schedule-course-view.component';
+import { CourseViewItemComponent } from './schedules/course-view-item/course-view-item.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { ScheduleBuilderComponent } from './layout/schedule-builder/schedule-bui
     SingleCourseComponent,
     ReviewItemComponent,
     ReviewListComponent,
-    ScheduleBuilderComponent
+    ScheduleBuilderComponent,
+    ScheduleCourseViewComponent,
+    CourseViewItemComponent
   ],
   imports: [
     BrowserModule,
