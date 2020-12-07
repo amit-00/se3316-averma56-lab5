@@ -1,4 +1,4 @@
 [build]
   base    = "client"
-  publish = "dist"
+  publish = "dist/western-search"
   command = "ng build"
